@@ -2,8 +2,8 @@ package pl.mmakos.advent.year2022;
 
 import pl.mmakos.advent.utils.Utils;
 
-import java.util.List;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Day3 {
   public static void main(String[] args) {
@@ -20,10 +20,9 @@ public class Day3 {
   }
 
   private static int task2() {
-    List<String> lines = Utils.lines(3, 2022).toList();
-    return IntStream.range(0, lines.size())
-            .filter(i -> i % 3 == 0)
-            .map(i -> getSameLetter(lines.get(i), lines.get(i + 1), lines.get(i + 2)))
+    return Utils.lines(3, 2022, 3)
+            .map(Stream::toList)
+            .mapToInt(lines -> getSameLetter(lines.get(0), lines.get(1), lines.get(2)))
             .map(Day3::normalize)
             .sum();
   }

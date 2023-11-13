@@ -7,6 +7,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.function.ToIntFunction;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @NoArgsConstructor(access = AccessLevel.NONE)
@@ -27,12 +31,44 @@ public class Utils {
     }
   }
 
+  public static Stream<Stream<String>> lines(int day, int year, int batchSize) {
+    return split(lines(day, year), batchSize);
+  }
+
+  public static <T> Stream<Stream<T>> split(Stream<T> stream, int batchSize) {
+    List<T> lines = stream.toList();
+    return IntStream.range(0, lines.size())
+            .filter(i -> i % batchSize == 0)
+            .mapToObj(i -> lines.subList(i, i + batchSize))
+            .map(Collection::stream);
+  }
+
   public static Stream<String> strings(int day, int year, String delimiter) {
     return Arrays.stream(read(day, year).split(delimiter));
+  }
+
+  public static Stream<Stream<String>> strings(int day, int year, String delimiter, String innerDelimiter) {
+    return strings(day, year, delimiter)
+            .map(s -> Arrays.stream(s.split(innerDelimiter)));
+  }
+
+  public static IntStream ints(int day, int year, String delimiter) {
+    return Arrays.stream(read(day, year).split(delimiter))
+            .mapToInt(Integer::parseInt);
+  }
+
+  public static Stream<IntStream> ints(int day, int year, String delimiter, String innerDelimiter) {
+    return strings(day, year, delimiter)
+            .map(s -> Arrays.stream(s.split(innerDelimiter))
+                    .mapToInt(Integer::parseInt));
   }
 
   public static int positiveMod(int value, int mod) {
     int ret = value % mod;
     return ret >= 0 ? ret : ret + mod;
+  }
+
+  public static ToIntFunction<Integer> toPrimitiveInt() {
+    return i -> i;
   }
 }
