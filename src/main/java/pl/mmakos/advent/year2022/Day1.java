@@ -2,8 +2,8 @@ package pl.mmakos.advent.year2022;
 
 import pl.mmakos.advent.utils.Utils;
 
-import java.util.Arrays;
 import java.util.Comparator;
+import java.util.stream.IntStream;
 
 public class Day1 {
   public static void main(String[] args) {
@@ -12,21 +12,18 @@ public class Day1 {
   }
 
   private static int task1() {
-    return Utils.strings(1, 2022, System.lineSeparator().repeat(2))
-            .mapToInt(s -> Arrays.stream(s.split(System.lineSeparator()))
-                    .mapToInt(Integer::parseInt)
-                    .sum())
+    return Utils.ints(1, 2022, System.lineSeparator().repeat(2), System.lineSeparator())
+            .mapToInt(IntStream::sum)
             .max()
             .orElseThrow();
   }
 
   private static int task2() {
-    return Utils.strings(1, 2022, System.lineSeparator().repeat(2))
-            .map(s -> Arrays.stream(s.split(System.lineSeparator()))
-                    .mapToInt(Integer::parseInt)
-                    .sum())
+    return Utils.ints(1, 2022, System.lineSeparator().repeat(2), System.lineSeparator())
+            .mapToInt(IntStream::sum)
+            .boxed()
             .sorted(Comparator.reverseOrder())
-            .mapToInt(i -> i)
+            .mapToInt(Utils.toPrimitiveInt())
             .limit(3)
             .sum();
   }
