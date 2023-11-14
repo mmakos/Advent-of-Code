@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.function.ToIntFunction;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -63,12 +64,24 @@ public class Utils {
                     .mapToInt(Integer::parseInt));
   }
 
-  public static int positiveMod(int value, int mod) {
-    int ret = value % mod;
-    return ret >= 0 ? ret : ret + mod;
-  }
-
   public static ToIntFunction<Integer> toPrimitiveInt() {
     return i -> i;
+  }
+
+  public static int[] splitToInts(String string, String delimiter) {
+    return Arrays.stream(string.split(delimiter))
+            .mapToInt(Integer::parseInt)
+            .toArray();
+  }
+
+  public static <T> Predicate<T> or(Predicate<T> p1, Predicate<T>... p2) {
+    return Arrays.stream(p2)
+            .reduce(p1, Predicate::or);
+  }
+
+  public static Stream<String> split(String s, int batchSize) {
+    return IntStream.range(0, s.length())
+            .filter(i -> i % batchSize == 0)
+            .mapToObj(i -> s.substring(i, Math.min(i + batchSize, s.length())));
   }
 }
