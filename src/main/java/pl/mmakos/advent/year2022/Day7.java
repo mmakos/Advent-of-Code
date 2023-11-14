@@ -10,6 +10,7 @@ import java.util.List;
 import static java.util.function.Predicate.not;
 
 public class Day7 {
+  @SuppressWarnings("java:S106")
   public static void main(String[] args) {
     System.err.println("TASK 1: " + task1());
     System.err.println("TASK 2: " + task2());
@@ -43,16 +44,12 @@ public class Day7 {
             .forEach(line -> {
               if ("$ cd /".equals(line)) {
                 currentDir[0] = dirs.get(0);
-              } else if ("$ ls".equals(line)) {
-                // nothing heere
               } else if (line.startsWith("$ cd ..")) {
                 currentDir[0] = currentDir[0].parent;
               } else if (line.startsWith("$ cd ")) {
                 currentDir[0] = new Dir(currentDir[0]);
                 dirs.add(currentDir[0]);
-              } else if (line.startsWith("dir")) {
-                // nothing here
-              } else {
+              }else if (!"$ ls".equals(line) && !line.startsWith("dir")){
                 currentDir[0].add(Integer.parseInt(line.split(" ")[0]));
               }
             });

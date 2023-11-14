@@ -5,6 +5,7 @@ import pl.mmakos.advent.utils.Utils;
 import java.util.stream.IntStream;
 
 public class Day8 {
+  @SuppressWarnings("java:S106")
   public static void main(String[] args) {
     System.err.println("TASK 1: " + task1());
     System.err.println("TASK 2: " + task2());
