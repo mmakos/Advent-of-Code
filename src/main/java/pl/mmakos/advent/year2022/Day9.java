@@ -2,12 +2,15 @@ package pl.mmakos.advent.year2022;
 
 import pl.mmakos.advent.utils.Utils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.IntStream;
 
 public class Day9 {
+  @SuppressWarnings("java:S106")
   public static void main(String[] args) {
     System.err.println("TASK 1: " + task1());
     System.err.println("TASK 2: " + task2());

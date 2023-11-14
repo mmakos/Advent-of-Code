@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 public class Day5 {
   private static final Pattern INSTRUCTION_PATTERN = Pattern.compile("move (\\d+) from (\\d) to (\\d)");
 
+  @SuppressWarnings("java:S106")
   public static void main(String[] args) {
     System.err.println("TASK 1: " + task1());
     System.err.println("TASK 2: " + task2());
@@ -67,6 +68,7 @@ public class Day5 {
 
   private static int[] mapInstruction(String string) {
     Matcher matcher = INSTRUCTION_PATTERN.matcher(string);
+    //noinspection ResultOfMethodCallIgnored
     matcher.matches();
     return new int[]{
             Integer.parseInt(matcher.group(1)),

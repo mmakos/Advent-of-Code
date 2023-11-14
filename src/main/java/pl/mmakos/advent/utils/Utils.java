@@ -14,6 +14,7 @@ import java.util.function.ToIntFunction;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+@SuppressWarnings({"java:S112", "unused"})
 @NoArgsConstructor(access = AccessLevel.NONE)
 public class Utils {
   public static String read(int day, int year) {
@@ -74,6 +75,7 @@ public class Utils {
             .toArray();
   }
 
+  @SafeVarargs
   public static <T> Predicate<T> or(Predicate<T> p1, Predicate<T>... p2) {
     return Arrays.stream(p2)
             .reduce(p1, Predicate::or);
