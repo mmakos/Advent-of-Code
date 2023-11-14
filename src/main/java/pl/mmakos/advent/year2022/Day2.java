@@ -2,7 +2,7 @@ package pl.mmakos.advent.year2022;
 
 import pl.mmakos.advent.utils.Utils;
 
-import static pl.mmakos.advent.utils.Utils.positiveMod;
+import static java.lang.Math.floorMod;
 
 public class Day2 {
   public static void main(String[] args) {
@@ -29,7 +29,7 @@ public class Day2 {
 
   private static int second(int first, int second) {
     return switch (second) {
-      case 0 -> positiveMod(first - 1, 3);
+      case 0 -> floorMod(first - 1, 3);
       case 1 -> first;
       case 2 -> (first + 1) % 3;
       default -> -1;
@@ -39,7 +39,7 @@ public class Day2 {
   private static int score(int first, int second) {
     if (first == second) {
       return 3 + second + 1;
-    } else if (positiveMod(second - first, 3) == 1) {
+    } else if (floorMod(second - first, 3) == 1) {
       return 6 + second + 1;
     } else {
       return second + 1;
