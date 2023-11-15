@@ -6,8 +6,10 @@ import pl.mmakos.advent.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static java.util.function.Predicate.not;
 
@@ -23,30 +25,35 @@ public final class Day13 {
     int[] ints = Utils.strings(13, 2022, Utils.ENDL_2, Utils.ENDL)
             .map(s -> s.toArray(String[]::new))
             .filter(s -> s.length == 2)
-            .map(Day13::compare)
-            .mapToInt(b -> Boolean.TRUE.equals(b) ? 1 : 0)
+            .mapToInt(Day13::compare)
             .toArray();
 
     return IntStream.rangeClosed(1, ints.length)
-            .filter(i -> ints[i - 1] == 1)
+            .filter(i -> ints[i - 1] <= 0)
             .sum();
   }
 
   private static int task2() {
-    return 0;
+    Input[] addInputs = new Input[]{Input.getInput("[[2]]"), Input.getInput("[[6]]")};
+    Stream<Input> parsed = Utils.lines(13, 2022)
+            .filter(not(String::isBlank))
+            .map(Input::getInput);
+    List<Input> list = Stream.concat(parsed, Arrays.stream(addInputs))
+            .sorted(Input::compare)
+            .toList();
+    return (list.indexOf(addInputs[0]) + 1) * (list.indexOf(addInputs[1]) + 1);
   }
 
-  private static boolean compare(String[] s) {
+  private static int compare(String[] s) {
     Input left = Input.getInput(s[0]);
     Input right = Input.getInput(s[1]);
 
-    System.err.println(left);
-    System.err.println(right);
-
-    return true;
+    return left.compare(right);
   }
 
   private interface Input {
+    int compare(Input input);
+
     static Input getInput(String s) {
       if (!s.contains("[")) {
         return new InputList(Arrays.stream(s.split(","))
@@ -90,8 +97,36 @@ public final class Day13 {
   }
 
   private record IntInput(int i) implements Input {
+    @Override
+    public int compare(Input input) {
+      return input instanceof InputList inputList ? compare(inputList) : compare((IntInput) input);
+    }
+
+    private int compare(IntInput input) {
+      return Integer.compare(this.i, input.i);
+    }
+
+    private int compare(InputList input) {
+      return -input.compare(this);
+    }
   }
 
   private record InputList(List<Input> inputs) implements Input {
+    @Override
+    public int compare(Input input) {
+      return input instanceof InputList inputList ? compare(inputList) : compare((IntInput) input);
+    }
+
+    private int compare(InputList input) {
+      for (int i = 0; i < inputs.size() && i < input.inputs.size(); ++i) {
+        int compared = inputs.get(i).compare(input.inputs.get(i));
+        if (compared != 0) return compared;
+      }
+      return Integer.compare(inputs.size(), input.inputs.size());
+    }
+
+    private int compare(IntInput input) {
+      return compare(new InputList(Collections.singletonList(input)));
+    }
   }
 }
