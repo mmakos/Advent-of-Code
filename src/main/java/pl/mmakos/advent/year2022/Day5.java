@@ -51,16 +51,16 @@ public class Day5 {
   }
 
   private static Pair<List<String>[], Stream<int[]>> loadCrates() {
-    String[] array = Utils.strings(5, 2022, System.lineSeparator().repeat(2)).toArray(String[]::new);
+    String[] array = Utils.strings(5, 2022, Utils.ENDL_2).toArray(String[]::new);
     @SuppressWarnings("unchecked")
     List<String>[] stacks = IntStream.range(0, 9)
             .mapToObj(i -> new ArrayList<>())
             .toArray(List[]::new);
-    Arrays.stream(array[0].split(System.lineSeparator()))
+    Arrays.stream(array[0].split(Utils.ENDL))
             .takeWhile(s -> !s.contains("1"))
             .forEach(s -> putLine(stacks, s));
 
-    Stream<int[]> stream = Arrays.stream(array[1].split(System.lineSeparator()))
+    Stream<int[]> stream = Arrays.stream(array[1].split(Utils.ENDL))
             .map(Day5::mapInstruction);
 
     return new Pair<>(stacks, stream);
