@@ -17,6 +17,9 @@ import java.util.stream.Stream;
 @SuppressWarnings({"java:S112", "unused"})
 @NoArgsConstructor(access = AccessLevel.NONE)
 public class Utils {
+  public static final String ENDL = System.lineSeparator();
+  public static final String ENDL_2 = ENDL.repeat(2);
+
   public static String read(int day, int year) {
     try {
       return Files.readString(Path.of("input/year" + year + "/day" + day + ".txt"));
