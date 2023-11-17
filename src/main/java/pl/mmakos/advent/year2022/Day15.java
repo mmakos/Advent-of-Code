@@ -7,11 +7,9 @@ import pl.mmakos.advent.utils.Point;
 import pl.mmakos.advent.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
@@ -32,84 +30,43 @@ public final class Day15 {
 
   private static int task1() {
     Pair<Point, Point>[] input = input();
-    int[] bounds = getBounds(input);
     int row = 2_000_000;
-    char[] rowChars = new char[bounds[1] - bounds[0] + 1];
-    int zeroPos = -bounds[0];
 
-    return (int) find(row, zeroPos, rowChars, input).chars()
-            .filter(c -> c == '#')
-            .count();
+    Pair<Ranges, Integer> result = find(row, input);
+
+    return result.first().sum() - result.second();
   }
 
-  private static int task2() {
+  private static long task2() {
     Pair<Point, Point>[] input = input();
-    AtomicInteger result = new AtomicInteger();
+    int constraint = 4_000_000;
+    Pair<Ranges, Integer> ranges = IntStream.rangeClosed(0, constraint)
+            .mapToObj(i -> new Pair<>(find(i, input).first(), i))
+            .filter(r -> r.first().sum(0, constraint) == constraint)
+            .findFirst()
+            .orElseThrow();
+    int x = ranges.first().ranges.get(0)[1] + 1;
 
-    ExecutorService executorService = Executors.newFixedThreadPool(16);
-    for (int i = 0; i < 16; ++ i) {
-      int finalI = i * 250_000;
-      char[] rowChars = new char[4_000_000];
-      executorService.execute(() -> {
-        for (int row = finalI; row < finalI + 250_000; ++row) {
-          String str = find(row, 0, rowChars, input);
-          int idx = str.indexOf('\0');
-          Arrays.fill(rowChars, '\0');
-          if (idx != -1) {
-            result.set(4_000_000 * idx + row);
-            System.err.println("TASK 2!!!: " + result.get());
-            executorService.shutdown();
-            return;
-          }
-          if (row % 10_000 == 0) {
-            System.err.println(row);
-          }
-        }
-      });
-    }
-
-    return 0;
+    return x * 4_000_000L + ranges.second();
   }
 
-  private static String find(int row, int zeroPos, char[] rowChars, Pair<Point, Point>[] input) {
+  private static Pair<Ranges, Integer> find(int row, Pair<Point, Point>[] input) {
+    Ranges ranges = new Ranges();
+    Set<Integer> beaconsInRow = new HashSet<>();
     for (Pair<Point, Point> pair : input) {
       Point sensor = pair.first();
       Point beacon = pair.second();
 
-      if (beacon.y() == row && beacon.x() >= -zeroPos) {
-        rowChars[beacon.x() + zeroPos] = 'B';
+      if (beacon.y() == row) {
+        beaconsInRow.add(beacon.x());
       }
       int noBeaconFieldsInR = distance(sensor, beacon) - abs(sensor.y() - row);
       if (noBeaconFieldsInR >= 0) {
-        for (int i = Math.max(-zeroPos, sensor.x() - noBeaconFieldsInR + zeroPos); i < Math.min(rowChars.length + zeroPos, sensor.x() + noBeaconFieldsInR + zeroPos + 1); ++i) {
-          if (rowChars[i] != 'B') {
-            rowChars[i] = '#';
-          }
-        }
+        ranges.addRange(sensor.x() - noBeaconFieldsInR, sensor.x() + noBeaconFieldsInR);
       }
-      if (!new String(rowChars).contains("\0")) break;
     }
 
-    return new String(rowChars);
-  }
-
-  @SuppressWarnings("unchecked")
-  private static int[] getBounds(Pair<Point, Point>[] input) {
-    List<Integer>[] boundLists = new List[]{new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()};
-    Arrays.stream(input)
-            .map(p -> getBounds(p.first(), p.second()))
-            .forEach(b -> {
-              boundLists[0].add(b[0]);
-              boundLists[1].add(b[1]);
-              boundLists[2].add(b[2]);
-              boundLists[3].add(b[3]);
-            });
-    return new int[]{
-            boundLists[0].stream().mapToInt(i -> i).min().orElseThrow(),
-            boundLists[1].stream().mapToInt(i -> i).max().orElseThrow(),
-            boundLists[2].stream().mapToInt(i -> i).min().orElseThrow(),
-            boundLists[3].stream().mapToInt(i -> i).max().orElseThrow(),
-    };
+    return new Pair<>(ranges, beaconsInRow.size());
   }
 
   @SuppressWarnings("unchecked")
@@ -127,13 +84,67 @@ public final class Day15 {
     return abs(sensor.x() - beacon.x()) + abs(sensor.y() - beacon.y());
   }
 
-  private static int[] getBounds(Point sensor, Point beacon) {
-    int distance = distance(sensor, beacon);
-    return new int[]{
-            sensor.x() - distance,  // min x
-            sensor.x() + distance,  // max x
-            sensor.y() - distance,  // min y
-            sensor.y() + distance,  // max y
-    };
+  private static class Ranges {
+    @SuppressWarnings("java:S1700")
+    private final List<int[]> ranges = new ArrayList<>();
+
+    private void addRange(int start, int end) {
+      if (ranges.isEmpty()) {
+        ranges.add(new int[]{start, end});
+        return;
+      }
+
+      int endIdx = 0;
+      int startIdx = 0;
+      for (int[] range : ranges) {
+        if (start < range[0] && end < range[1]) {
+          break;
+        }
+        if (start >= range[0]) {
+          ++startIdx;
+        }
+        if (end > range[1]) {
+          ++endIdx;
+        }
+      }
+
+      if (endIdx < startIdx) return;
+
+      int[] removePrevious = null;
+      int[] removeNext = null;
+      if (startIdx > 0 && start <= ranges.get(startIdx - 1)[1]) {
+        start = ranges.get(startIdx - 1)[0];
+        removePrevious = ranges.get(startIdx - 1);
+      }
+      if (endIdx < ranges.size() && end >= ranges.get(endIdx)[0]) {
+        end = ranges.get(endIdx)[1];
+        removeNext = ranges.get(endIdx);
+      }
+      ranges.subList(startIdx, endIdx).clear();
+      if (removePrevious != null) {
+        ranges.remove(removePrevious);
+        --startIdx;
+      }
+      if (removeNext != null) {
+        ranges.remove(removeNext);
+      }
+      ranges.add(startIdx, new int[]{start, end});
+    }
+
+    private int sum() {
+      return ranges.stream()
+              .mapToInt(r -> r[1] - r[0] + 1)
+              .sum();
+    }
+
+    private int sum(int start, int end) {
+      return ranges.stream()
+              .mapToInt(r -> {
+                int s = Math.max(r[0], start);
+                int e = Math.min(r[1], end);
+                return e - s + 1;
+              })
+              .sum();
+    }
   }
 }
