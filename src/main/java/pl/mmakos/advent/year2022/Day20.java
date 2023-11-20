@@ -5,9 +5,9 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import pl.mmakos.advent.utils.Utils;
 
+@SuppressWarnings("java:S106")
 @NoArgsConstructor(access = AccessLevel.NONE)
 public final class Day20 {
-  @SuppressWarnings("java:S106")
   public static void main(String[] args) {
     System.err.println("TASK 1: " + task1());
     System.err.println("TASK 2: " + task2());
