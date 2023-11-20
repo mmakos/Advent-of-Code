@@ -14,6 +14,8 @@ import java.util.function.ToIntFunction;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static java.util.function.Predicate.not;
+
 @SuppressWarnings({"java:S112", "unused"})
 @NoArgsConstructor(access = AccessLevel.NONE)
 public class Utils {
@@ -65,6 +67,7 @@ public class Utils {
   public static Stream<IntStream> ints(int day, int year, String delimiter, String innerDelimiter) {
     return strings(day, year, delimiter)
             .map(s -> Arrays.stream(s.split(innerDelimiter))
+                    .filter(not(String::isBlank))
                     .mapToInt(Integer::parseInt));
   }
 
