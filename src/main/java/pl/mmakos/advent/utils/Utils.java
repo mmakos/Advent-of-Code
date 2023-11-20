@@ -89,4 +89,8 @@ public class Utils {
             .filter(i -> i % batchSize == 0)
             .mapToObj(i -> s.substring(i, Math.min(i + batchSize, s.length())));
   }
+
+  public static int bitsAt(int b, int pos, int length) {
+    return ((1 << length) - 1) & (b >> pos);
+  }
 }
