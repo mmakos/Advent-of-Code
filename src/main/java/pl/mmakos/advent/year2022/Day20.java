@@ -46,7 +46,6 @@ public final class Day20 {
 
   private static void sort(CircularList sorted, LongRef[] origin) {
     for (LongRef anLongRef : origin) {
-      if (anLongRef.i == 0) continue;
       sorted.move(anLongRef);
     }
   }
@@ -73,6 +72,9 @@ public final class Day20 {
 
     private void move(LongRef val) {
       int move = (int) (val.i % (size - 1));
+      if (move == 0) {
+        return;
+      }
       CListNode valNode = get(val);
       CListNode node = valNode;
       node.prev.next = node.next;
