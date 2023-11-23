@@ -96,4 +96,35 @@ public class Utils {
   public static int bitsAt(int b, int pos, int length) {
     return ((1 << length) - 1) & (b >> pos);
   }
+
+  public static long pow(int a, int b) {
+    long x = 1;
+    for (int i = 0; i < b; ++i) {
+      x *= a;
+    }
+    return x;
+  }
+
+  public static String toString(char[][] chars) {
+    StringBuilder sb = new StringBuilder();
+    for (char[] row : chars) {
+      sb.append(row).append("\n");
+    }
+    return sb.toString();
+  }
+
+  public static String toString(Char[][] chars) {
+    StringBuilder sb = new StringBuilder();
+    for (Char[] row : chars) {
+      for (Char c : row) {
+        sb.append(c.asChar());
+      }
+      sb.append("\n");
+    }
+    return sb.toString();
+  }
+
+  public interface Char {
+    char asChar();
+  }
 }
