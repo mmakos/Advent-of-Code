@@ -6,13 +6,15 @@ import lombok.NoArgsConstructor;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.function.BooleanSupplier;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
+import java.util.regex.Matcher;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import static java.util.function.Predicate.not;
 
@@ -126,5 +128,25 @@ public class Utils {
 
   public interface Char {
     char asChar();
+  }
+
+  // returns start and matched value
+  public static Stream<Matcher> stream(Matcher matcher) {
+    return stream(matcher::find, () -> matcher);
+  }
+
+  public static <T> Stream<T> stream(BooleanSupplier hasNext, Supplier<T> next) {
+    Iterator<T> it = new Iterator<T>() {
+      @Override
+      public boolean hasNext() {
+        return hasNext.getAsBoolean();
+      }
+
+      @Override
+      public T next() {
+        return next.get();
+      }
+    };
+    return StreamSupport.stream(Spliterators.spliteratorUnknownSize(it, 0), false);
   }
 }
