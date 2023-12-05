@@ -126,6 +126,12 @@ public class Utils {
     return sb.toString();
   }
 
+  public static long[] toLongs(String s) {
+    return Arrays.stream(s.split("\\s+"))
+            .mapToLong(Long::parseLong)
+            .toArray();
+  }
+
   public interface Char {
     char asChar();
   }
@@ -136,7 +142,7 @@ public class Utils {
   }
 
   public static <T> Stream<T> stream(BooleanSupplier hasNext, Supplier<T> next) {
-    Iterator<T> it = new Iterator<T>() {
+    Iterator<T> it = new Iterator<>() {
       @Override
       public boolean hasNext() {
         return hasNext.getAsBoolean();
