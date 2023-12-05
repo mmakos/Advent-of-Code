@@ -1,7 +1,9 @@
 package pl.mmakos.advent.utils;
 
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.IntStream;
 
 public record Pair<T1, T2>(T1 first, T2 second) {
   public <T> Pair<T1, T> mapSecond(Function<T2, T> mapper) {
@@ -47,6 +49,10 @@ public record Pair<T1, T2>(T1 first, T2 second) {
 
     public <T> Stream<T1, T> mapSecond(Function<T2, T> mapper) {
       return new Stream<>(innerStream.map(p -> p.mapSecond(mapper)));
+    }
+
+    public IntStream mapToInt(BiFunction<T1, T2, Integer> mapper) {
+      return innerStream.mapToInt(p -> mapper.apply(p.first, p.second));
     }
   }
 }
