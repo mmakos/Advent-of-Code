@@ -126,9 +126,39 @@ public class Utils {
     return sb.toString();
   }
 
-  public static long[] toLongs(String s) {
-    return Arrays.stream(s.split("\\s+"))
+  public static int[] toInts(String str, String delimiter) {
+    return Arrays.stream(str.split(delimiter))
+            .mapToInt(Integer::parseInt)
+            .toArray();
+  }
+
+  public static int[] toInts(String str) {
+    return toInts(str, "\\s+");
+  }
+
+  public static long[] toLongs(String str, String delimiter) {
+    return Arrays.stream(str.split(delimiter))
             .mapToLong(Long::parseLong)
+            .toArray();
+  }
+
+  public static long[] toLongs(String str) {
+    return toLongs(str, "\\s+");
+  }
+
+  public static int[][] transpose(int[][] matrix) {
+    int[][] transposed = new int[matrix[0].length][matrix.length];
+    for (int i = 0; i < matrix.length; ++i) {
+      for (int j = 0; j < transposed.length; ++j) {
+        transposed[j][i] = matrix[i][j];
+      }
+    }
+    return transposed;
+  }
+
+  public static int[] toPrimitiveInts(List<Integer> ints) {
+    return ints.stream()
+            .mapToInt(toPrimitiveInt())
             .toArray();
   }
 
