@@ -38,8 +38,8 @@ public final class CreateFiles {
 
   @SuppressWarnings({"ResultOfMethodCallIgnored", "java:S899", "java:S112"})
   public static void main(String[] args) {
-    int year = 2022;
-    IntStream.rangeClosed(10, 25)
+    int year = 2021;
+    IntStream.rangeClosed(1, 25)
             .forEach(i -> {
               try {
                 new File("input/year" + year + "/day" + i + ".txt").createNewFile();

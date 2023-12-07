@@ -1,8 +1,6 @@
 package pl.mmakos.advent.utils;
 
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.function.*;
 import java.util.stream.IntStream;
 
 public record Pair<T1, T2>(T1 first, T2 second) {
@@ -43,6 +41,11 @@ public record Pair<T1, T2>(T1 first, T2 second) {
       return this;
     }
 
+    public Stream<T1, T2> filter(BiPredicate<T1, T2> filter) {
+      innerStream = innerStream.filter(p -> filter.test(p.first, p.second));
+      return this;
+    }
+
     public <T> Stream<T, T2> mapFirst(Function<T1, T> mapper) {
       return new Stream<>(innerStream.map(p -> p.mapFirst(mapper)));
     }
@@ -53,6 +56,10 @@ public record Pair<T1, T2>(T1 first, T2 second) {
 
     public IntStream mapToInt(BiFunction<T1, T2, Integer> mapper) {
       return innerStream.mapToInt(p -> mapper.apply(p.first, p.second));
+    }
+
+    public void forEach(BiConsumer<T1, T2> function) {
+      innerStream.forEach(p -> function.accept(p.first, p.second));
     }
   }
 }
