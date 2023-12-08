@@ -20,7 +20,7 @@ public final class Day17 {
 
   private static int task1() {
     char[] input = input();
-    Iterator<Character> inputIt = iterator(input());
+    Iterator<Character> inputIt = Utils.iterator(input());
     Iterator<Stone> stones = Stone.iterator();
     Chamber chamber = new Chamber(input.length);
 
@@ -39,7 +39,7 @@ public final class Day17 {
   @SuppressWarnings("java:S127")
   private static long task2() {
     char[] input = input();
-    Iterator<Character> inputIt = iterator(input());
+    Iterator<Character> inputIt = Utils.iterator(input());
     Iterator<Stone> stones = Stone.iterator();
     Chamber chamber = new Chamber(input.length);
     chamber.repetitionsEnabled = true;
@@ -65,12 +65,6 @@ public final class Day17 {
     }
 
     return chamber.height + repetitionHeights;
-  }
-
-  private static Iterator<Character> iterator(char[] chars) {
-    return IntStream.iterate(0, i -> ++i % chars.length)
-            .mapToObj(i -> chars[i])
-            .iterator();
   }
 
   private static char[] input() {
