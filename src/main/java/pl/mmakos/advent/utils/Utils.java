@@ -162,6 +162,19 @@ public class Utils {
             .toArray();
   }
 
+  public static Iterator<Character> iterator(char[] chars) {
+    return IntStream.iterate(0, i -> ++i % chars.length)
+            .mapToObj(i -> chars[i])
+            .iterator();
+  }
+
+  public static void removeIndexes(List<?> list, List<Integer> indexes) {
+    indexes.stream()
+            .sorted(Comparator.reverseOrder())
+            .mapToInt(toPrimitiveInt())
+            .forEach(list::remove);
+  }
+
   public interface Char {
     char asChar();
   }
