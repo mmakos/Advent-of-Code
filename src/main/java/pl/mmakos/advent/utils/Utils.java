@@ -175,6 +175,13 @@ public class Utils {
             .forEach(list::remove);
   }
 
+  public static boolean contains(char c, char[] array) {
+    for (char ch : array) {
+      if (c == ch) return true;
+    }
+    return false;
+  }
+
   public interface Char {
     char asChar();
   }
