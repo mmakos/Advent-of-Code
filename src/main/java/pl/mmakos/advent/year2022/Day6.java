@@ -13,11 +13,11 @@ public class Day6 {
   }
 
   private static int task1() {
-    return getMarkerPosition(Utils.read(6, 2022), 4);
+    return getMarkerPosition(Utils.read(), 4);
   }
 
   private static int task2() {
-    return getMarkerPosition(Utils.read(6, 2022), 14);
+    return getMarkerPosition(Utils.read(), 14);
   }
 
   private static int getMarkerPosition(String str, int distinct) {

@@ -122,7 +122,7 @@ public final class Day14 {
   }
 
   private static Point[][] paths() {
-    return Utils.lines(14, 2022)
+    return Utils.lines()
             .filter(not(String::isBlank))
             .map(s -> Arrays.stream(s.split(" -> "))
                     .map(str -> str.split(","))

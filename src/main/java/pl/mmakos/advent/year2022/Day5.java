@@ -51,7 +51,7 @@ public class Day5 {
   }
 
   private static Pair<List<String>[], Stream<int[]>> loadCrates() {
-    String[] array = Utils.strings(5, 2022, Utils.ENDL_2).toArray(String[]::new);
+    String[] array = Utils.strings(Utils.ENDL_2).toArray(String[]::new);
     @SuppressWarnings("unchecked")
     List<String>[] stacks = IntStream.range(0, 9)
             .mapToObj(i -> new ArrayList<>())

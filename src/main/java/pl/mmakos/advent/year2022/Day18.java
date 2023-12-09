@@ -105,7 +105,7 @@ public final class Day18 {
 
   // input as [x][y][z], where 1 - is droplet, 0 - no droplet
   private static int[][][] input() {
-    int[][] input = Utils.ints(18, 2022, Utils.ENDL, ",")
+    int[][] input = Utils.ints(Utils.ENDL, ",")
             .map(IntStream::toArray)
             .toArray(int[][]::new);
     int[] maxes = Arrays.stream(input)

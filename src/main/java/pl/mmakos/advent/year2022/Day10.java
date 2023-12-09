@@ -60,7 +60,7 @@ public final class Day10 {
   }
 
   private static int[] parseInput() {
-    return Utils.lines(10, 2022)
+    return Utils.lines()
             .filter(not(String::isBlank))
             .mapToInt(line -> {
               if (line.startsWith("addx")) {

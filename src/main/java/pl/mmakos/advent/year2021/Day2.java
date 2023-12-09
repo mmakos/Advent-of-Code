@@ -14,7 +14,7 @@ public final class Day2 {
 
   private static int task1() {
     int[] pos = new int[2];
-    Utils.lines(2, 2021)
+    Utils.lines()
             .map(Instruction::new)
             .forEach(i -> i.apply(pos));
 
@@ -23,7 +23,7 @@ public final class Day2 {
 
   private static int task2() {
     int[] pos = new int[3];
-    Utils.lines(2, 2021)
+    Utils.lines()
             .map(Instruction::new)
             .forEach(i -> i.apply(pos));
 

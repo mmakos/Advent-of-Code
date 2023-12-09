@@ -12,7 +12,7 @@ public class Day4 {
   }
 
   private static long task1() {
-    return Utils.lines(4, 2022)
+    return Utils.lines()
             .map(s -> Arrays.stream(s.split(","))
                     .map(str -> Utils.splitToInts(str, "-"))
                     .toArray(int[][]::new))
@@ -21,7 +21,7 @@ public class Day4 {
   }
 
   private static long task2() {
-    return Utils.lines(4, 2022)
+    return Utils.lines()
             .map(s -> Arrays.stream(s.split(","))
                     .map(str -> Utils.splitToInts(str, "-"))
                     .toArray(int[][]::new))

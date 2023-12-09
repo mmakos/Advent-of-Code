@@ -50,7 +50,7 @@ public final class Day4 {
 
   @SuppressWarnings("java:S1854")
   private static Pair.Stream<List<Integer>, List<Integer>> input() {
-    Stream<String[]> cards = Utils.lines(4, 2023)
+    Stream<String[]> cards = Utils.lines()
             .map(s -> s.split(": ")[1])
             .map(s -> s.split(" \\| "));
     return pairStream(cards, s -> s[0], s -> s[1])

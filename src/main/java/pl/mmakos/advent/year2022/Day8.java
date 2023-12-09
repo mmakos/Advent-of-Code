@@ -32,7 +32,7 @@ public class Day8 {
   }
 
   private static int[][] getHeights() {
-    return Utils.lines(8, 2022)
+    return Utils.lines()
             .map(s -> Utils.split(s, 1)
                     .mapToInt(Integer::parseInt)
                     .toArray())

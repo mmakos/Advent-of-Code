@@ -44,7 +44,7 @@ public final class Day6 {
   }
 
   private static Map<Integer, Long> input() {
-    return Utils.ints(6, 2021, ",")
+    return Utils.ints(",")
             .boxed()
             .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
   }

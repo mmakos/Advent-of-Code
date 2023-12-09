@@ -67,7 +67,7 @@ public final class Day8 {
   }
 
   private static Pair<char[], Map<String, String[]>> input() {
-    String[] array = Utils.strings(8, 2023, Utils.ENDL_2)
+    String[] array = Utils.strings(Utils.ENDL_2)
             .toArray(String[]::new);
     char[] instructions = array[0].toCharArray();
     Map<String, String[]> map = Arrays.stream(array[1].split(Utils.ENDL))

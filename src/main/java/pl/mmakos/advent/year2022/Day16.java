@@ -55,7 +55,7 @@ public final class Day16 {
   }
 
   private static Valve input() {
-    Map<String, Pair<Valve, String[]>> input = Utils.lines(16, 2022)
+    Map<String, Pair<Valve, String[]>> input = Utils.lines()
             .filter(not(String::isBlank))
             .map(INPUT_PATTERN::matcher)
             .filter(Matcher::matches)

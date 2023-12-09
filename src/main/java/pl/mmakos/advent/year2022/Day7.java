@@ -39,7 +39,7 @@ public class Day7 {
     dirs.add(new Dir(null));
     Dir[] currentDir = new Dir[]{dirs.get(0)};
 
-    Utils.lines(7, 2022)
+    Utils.lines()
             .filter(not(String::isBlank))
             .forEach(line -> {
               if ("$ cd /".equals(line)) {

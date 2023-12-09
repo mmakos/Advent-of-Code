@@ -20,7 +20,7 @@ public final class Day22 {
 
   private static int task1() {
     cubeWrap = false;
-    String[] input = Utils.strings(22, 2022, Utils.ENDL_2)
+    String[] input = Utils.strings(Utils.ENDL_2)
             .toArray(String[]::new);
     char[][] board = board(input[0]);
     Movement[] moves = moves(input[1]);
@@ -35,7 +35,7 @@ public final class Day22 {
 
   private static int task2() {
     cubeWrap = true;
-    String[] input = Utils.strings(22, 2022, Utils.ENDL_2)
+    String[] input = Utils.strings(Utils.ENDL_2)
             .toArray(String[]::new);
     char[][] board = board(input[0]);
     Movement[] moves = moves(input[1]);

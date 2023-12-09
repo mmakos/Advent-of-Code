@@ -31,7 +31,7 @@ public class Day9 {
             .toArray(Position[]::new);
     visited.add(positions[positions.length - 1]);
 
-    List<String> moves = Utils.lines(9, 2022)
+    List<String> moves = Utils.lines()
             .map(l -> l.split(" "))
             .flatMap(l -> IntStream.range(0, Integer.parseInt(l[1]))
                     .mapToObj(i -> l[0]))

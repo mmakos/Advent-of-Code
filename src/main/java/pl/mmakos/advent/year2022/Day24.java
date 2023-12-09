@@ -71,7 +71,7 @@ public final class Day24 {
   }
 
   private static Tile[][] board() {
-    return Utils.lines(24, 2022)
+    return Utils.lines()
             .map(s -> s.chars()
                     .mapToObj(Tile::new)
                     .toArray(Tile[]::new))

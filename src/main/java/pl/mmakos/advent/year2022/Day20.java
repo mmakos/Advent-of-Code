@@ -14,7 +14,7 @@ public final class Day20 {
   }
 
   private static long task1() {
-    LongRef[] origin = Utils.ints(20, 2022, Utils.ENDL)
+    LongRef[] origin = Utils.ints(Utils.ENDL)
             .mapToObj(LongRef::new)
             .toArray(LongRef[]::new);
 
@@ -28,7 +28,7 @@ public final class Day20 {
   }
 
   private static long task2() {
-    LongRef[] origin = Utils.ints(20, 2022, Utils.ENDL)
+    LongRef[] origin = Utils.ints(Utils.ENDL)
             .mapToLong(i -> i * 811_589_153L)
             .mapToObj(LongRef::new)
             .toArray(LongRef[]::new);

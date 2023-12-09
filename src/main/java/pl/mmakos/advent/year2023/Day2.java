@@ -35,7 +35,7 @@ public final class Day2 {
   }
 
   private static Stream<Game> input() {
-    return Utils.lines(2, 2023)
+    return Utils.lines()
             .map(Day2::game);
   }
 

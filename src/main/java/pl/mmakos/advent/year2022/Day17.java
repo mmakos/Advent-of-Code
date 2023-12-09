@@ -68,7 +68,7 @@ public final class Day17 {
   }
 
   private static char[] input() {
-    return Utils.read(17, 2022)
+    return Utils.read()
             .toCharArray();
   }
 

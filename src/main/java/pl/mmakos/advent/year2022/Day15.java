@@ -71,7 +71,7 @@ public final class Day15 {
 
   @SuppressWarnings("unchecked")
   private static Pair<Point, Point>[] input() {
-    return Utils.lines(15, 2022)
+    return Utils.lines()
             .filter(not(String::isBlank))
             .map(INPUT_PATTERN::matcher)
             .filter(Matcher::matches)

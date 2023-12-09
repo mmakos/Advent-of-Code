@@ -24,7 +24,7 @@ public final class Day9 {
   }
 
   private static int solve(boolean right) {
-    return Utils.lines(9, 2023)
+    return Utils.lines()
             .map(s -> Utils.splitToInts(s, " "))
             .map(Day9::addRowsTo0)
             .mapToInt(i -> ext(i, right))

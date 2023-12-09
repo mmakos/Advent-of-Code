@@ -81,7 +81,7 @@ public final class Day11 {
   }
 
   private static int[][] input() {
-    return Utils.lines(11, 2021)
+    return Utils.lines()
             .map(s -> s.chars()
                     .map(i -> i - '0')
                     .toArray())

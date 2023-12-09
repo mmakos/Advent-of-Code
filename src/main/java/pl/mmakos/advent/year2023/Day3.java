@@ -86,7 +86,7 @@ public final class Day3 {
   }
 
   private static String[] input() {
-    return Utils.lines(3, 2023)
+    return Utils.lines()
             .toArray(String[]::new);
   }
 }

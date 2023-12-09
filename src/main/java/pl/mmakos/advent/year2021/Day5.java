@@ -60,7 +60,7 @@ public final class Day5 {
   }
 
   private static Pair.Stream<Point, Point> input() {
-    return Pair.Stream.pairStream(Utils.lines(5, 2021).map(s -> s.split(" -> ")), s -> s[0], s -> s[1])
+    return Pair.Stream.pairStream(Utils.lines().map(s -> s.split(" -> ")), s -> s[0], s -> s[1])
             .mapFirst(Day5::point)
             .mapSecond(Day5::point);
   }
