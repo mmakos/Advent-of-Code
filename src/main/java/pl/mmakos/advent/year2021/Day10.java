@@ -29,7 +29,7 @@ public final class Day10 {
   }
 
   private static int task1() {
-    return Utils.lines(10, 2021)
+    return Utils.lines()
             .map(Day10::getFirstNotMatchingBracket)
             .filter(c -> c != (char) -1)
             .mapToInt(POINTS::get)
@@ -37,7 +37,7 @@ public final class Day10 {
   }
 
   private static long task2() {
-    long[] points = Utils.lines(10, 2021)
+    long[] points = Utils.lines()
             .map(Day10::complete)
             .filter(Objects::nonNull)
             .mapToLong(Day10::points2)

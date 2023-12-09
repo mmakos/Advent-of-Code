@@ -52,7 +52,7 @@ public final class Day11 {
   }
 
   private static Monkey[] getMonkeys() {
-    return Utils.strings(11, 2022, Utils.ENDL_2, Utils.ENDL)
+    return Utils.strings(Utils.ENDL_2, Utils.ENDL)
             .map(s -> s.toArray(String[]::new))
             .filter(s -> s.length > 0)
             .map(Monkey::parse)

@@ -22,7 +22,7 @@ public final class Day21 {
   }
 
   private static long task1() {
-    Map<String, Monkey> monkeys = Utils.lines(21, 2022)
+    Map<String, Monkey> monkeys = Utils.lines()
             .map(s -> s.split(": "))
             .collect(Collectors.toMap(s -> s[0], s -> Monkey.parse(s[1])));
 
@@ -30,7 +30,7 @@ public final class Day21 {
   }
 
   private static long task2() {
-    Map<String, Monkey> monkeys = Utils.lines(21, 2022)
+    Map<String, Monkey> monkeys = Utils.lines()
             .map(s -> s.split(": "))
             .collect(Collectors.toMap(s -> s[0], s -> Monkey.parse(s[1])));
 

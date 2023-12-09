@@ -107,7 +107,7 @@ public final class Day4 {
   }
 
   private static Pair<int[], Cell[][][]> input() {
-    String[][] strs = Utils.strings(4, 2021, Utils.ENDL_2, Utils.ENDL)
+    String[][] strs = Utils.strings(Utils.ENDL_2, Utils.ENDL)
             .map(s -> s.toArray(String[]::new))
             .toArray(String[][]::new);
 

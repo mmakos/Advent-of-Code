@@ -18,7 +18,7 @@ public final class Day7 {
   }
 
   private static int task1() {
-    int[] input = Utils.ints(7, 2021, ",").toArray();
+    int[] input = Utils.ints(",").toArray();
     int max = Arrays.stream(input).max().orElseThrow();
 
     return IntStream.range(0, max)
@@ -28,7 +28,7 @@ public final class Day7 {
   }
 
   private static int task2() {
-    int[] input = Utils.ints(7, 2021, ",").toArray();
+    int[] input = Utils.ints(",").toArray();
     int max = Arrays.stream(input).max().orElseThrow();
 
     return IntStream.range(0, max)

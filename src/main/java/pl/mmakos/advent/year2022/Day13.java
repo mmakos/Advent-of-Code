@@ -22,7 +22,7 @@ public final class Day13 {
   }
 
   private static int task1() {
-    int[] ints = Utils.strings(13, 2022, Utils.ENDL_2, Utils.ENDL)
+    int[] ints = Utils.strings(Utils.ENDL_2, Utils.ENDL)
             .map(s -> s.toArray(String[]::new))
             .filter(s -> s.length == 2)
             .mapToInt(Day13::compare)
@@ -35,7 +35,7 @@ public final class Day13 {
 
   private static int task2() {
     Input[] addInputs = new Input[]{Input.getInput("[[2]]"), Input.getInput("[[6]]")};
-    Stream<Input> parsed = Utils.lines(13, 2022)
+    Stream<Input> parsed = Utils.lines()
             .filter(not(String::isBlank))
             .map(Input::getInput);
     List<Input> list = Stream.concat(parsed, Arrays.stream(addInputs))

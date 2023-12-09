@@ -63,7 +63,7 @@ public final class Day3 {
   }
 
   private static int[][] getInput() {
-    return Utils.lines(3, 2021)
+    return Utils.lines()
             .map(s -> s.chars()
                     .mapToObj(Character::toString)
                     .mapToInt(Integer::parseInt)

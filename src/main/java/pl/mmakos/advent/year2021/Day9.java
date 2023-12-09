@@ -83,7 +83,7 @@ public final class Day9 {
   }
 
   private static int[][] input() {
-    return Utils.lines(9, 2021)
+    return Utils.lines()
             .map(s -> s.chars()
                     .map(c -> c - '0')
                     .toArray())

@@ -24,24 +24,19 @@ public class Utils {
   public static final String ENDL = System.lineSeparator();
   public static final String ENDL_2 = ENDL.repeat(2);
 
-  public static String read(int day, int year) {
-    try {
-      return Files.readString(Path.of("input/year" + year + "/day" + day + ".txt"));
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+  public static String read() {
+    int[] dayAndYear = getDayAndYear();
+    return read(dayAndYear[0], dayAndYear[1]);
   }
 
-  public static Stream<String> lines(int day, int year) {
-    try {
-      return Files.lines(Path.of("input/year" + year + "/day" + day + ".txt"));
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+  public static Stream<String> lines() {
+    int[] dayAndYear = getDayAndYear();
+    return lines(dayAndYear[0], dayAndYear[1]);
   }
 
-  public static Stream<Stream<String>> lines(int day, int year, int batchSize) {
-    return split(lines(day, year), batchSize);
+  public static Stream<Stream<String>> lines(int batchSize) {
+    int[] dayAndYear = getDayAndYear();
+    return split(lines(dayAndYear[0], dayAndYear[1]), batchSize);
   }
 
   public static <T> Stream<Stream<T>> split(Stream<T> stream, int batchSize) {
@@ -52,22 +47,26 @@ public class Utils {
             .map(Collection::stream);
   }
 
-  public static Stream<String> strings(int day, int year, String delimiter) {
-    return Arrays.stream(read(day, year).split(delimiter));
+  public static Stream<String> strings(String delimiter) {
+    int[] dayAndYear = getDayAndYear();
+    return Arrays.stream(read(dayAndYear[0], dayAndYear[1]).split(delimiter));
   }
 
-  public static Stream<Stream<String>> strings(int day, int year, String delimiter, String innerDelimiter) {
-    return strings(day, year, delimiter)
+  public static Stream<Stream<String>> strings(String delimiter, String innerDelimiter) {
+    int[] dayAndYear = getDayAndYear();
+    return strings(dayAndYear[0], dayAndYear[1], delimiter)
             .map(s -> Arrays.stream(s.split(innerDelimiter)));
   }
 
-  public static IntStream ints(int day, int year, String delimiter) {
-    return Arrays.stream(read(day, year).split(delimiter))
+  public static IntStream ints(String delimiter) {
+    int[] dayAndYear = getDayAndYear();
+    return Arrays.stream(read(dayAndYear[0], dayAndYear[1]).split(delimiter))
             .mapToInt(Integer::parseInt);
   }
 
-  public static Stream<IntStream> ints(int day, int year, String delimiter, String innerDelimiter) {
-    return strings(day, year, delimiter)
+  public static Stream<IntStream> ints(String delimiter, String innerDelimiter) {
+    int[] dayAndYear = getDayAndYear();
+    return strings(dayAndYear[0], dayAndYear[1], delimiter)
             .map(s -> Arrays.stream(s.split(innerDelimiter))
                     .filter(not(String::isBlank))
                     .mapToInt(Integer::parseInt));
@@ -204,5 +203,36 @@ public class Utils {
       }
     };
     return StreamSupport.stream(Spliterators.spliteratorUnknownSize(it, 0), false);
+  }
+
+  private static int[] getDayAndYear() {
+    StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+    String[] classNameSplit = stackTrace[3].getClassName().split("\\.");
+    String className = classNameSplit[classNameSplit.length - 1];
+    String packageName = classNameSplit[classNameSplit.length - 2];
+    int day = Integer.parseInt(className.substring(3));
+    int year = Integer.parseInt(packageName.substring(4));
+
+    return new int[] {day, year};
+  }
+
+  private static Stream<String> lines(int day, int year) {
+    try {
+      return Files.lines(Path.of("input/year" + year + "/day" + day + ".txt"));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private static String read(int day, int year) {
+    try {
+      return Files.readString(Path.of("input/year" + year + "/day" + day + ".txt"));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private static Stream<String> strings(int day, int year, String delimiter) {
+    return Arrays.stream(read(day, year).split(delimiter));
   }
 }

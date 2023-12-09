@@ -15,7 +15,7 @@ public final class Day6 {
   }
 
   private static long task1() {
-    int[][] input = Utils.lines(6, 2023)
+    int[][] input = Utils.lines()
           .map(s -> s.split(":\\s+")[1])
           .map(Utils::toInts)
           .toArray(int[][]::new);
@@ -27,7 +27,7 @@ public final class Day6 {
   }
 
   private static long task2() {
-    long[] input = Utils.lines(6, 2023)
+    long[] input = Utils.lines()
             .map(s -> s.split(":\\s+")[1])
             .map(s -> s.replaceAll("\\s+", ""))
             .mapToLong(Long::parseLong)

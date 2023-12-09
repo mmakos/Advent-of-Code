@@ -15,7 +15,7 @@ public final class Day1 {
   }
 
   private static long task1() {
-    int[] ints = Utils.ints(1, 2021, Utils.ENDL).toArray();
+    int[] ints = Utils.ints(Utils.ENDL).toArray();
 
     return IntStream.range(1, ints.length)
             .filter(i -> ints[i] > ints[i - 1])
@@ -23,7 +23,7 @@ public final class Day1 {
   }
 
   private static long task2() {
-    int[] ints = Utils.ints(1, 2021, Utils.ENDL).toArray();
+    int[] ints = Utils.ints(Utils.ENDL).toArray();
 
     return IntStream.range(3, ints.length)
             .filter(i -> ints[i] + ints[i - 1] + ints[i - 2] > ints[i - 1] + ints[i - 2] + ints[i - 3])

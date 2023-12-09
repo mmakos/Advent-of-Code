@@ -139,7 +139,7 @@ public final class Day23 {
   }
 
   private static Set<Point> input() {
-    String[] str = Utils.read(23, 2022).split(Utils.ENDL);
+    String[] str = Utils.read().split(Utils.ENDL);
     Set<Point> elves = new HashSet<>();
     for (int i = 0; i < str.length; ++i) {
       for (int j = 0; j < str[i].length(); ++j) {

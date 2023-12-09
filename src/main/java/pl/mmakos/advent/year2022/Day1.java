@@ -16,14 +16,14 @@ public final class Day1 {
   }
 
   private static int task1() {
-    return Utils.ints(1, 2022, Utils.ENDL_2, Utils.ENDL)
+    return Utils.ints(Utils.ENDL_2, Utils.ENDL)
             .mapToInt(IntStream::sum)
             .max()
             .orElseThrow();
   }
 
   private static int task2() {
-    return Utils.ints(1, 2022, Utils.ENDL_2, Utils.ENDL)
+    return Utils.ints(Utils.ENDL_2, Utils.ENDL)
             .mapToInt(IntStream::sum)
             .boxed()
             .sorted(Comparator.reverseOrder())

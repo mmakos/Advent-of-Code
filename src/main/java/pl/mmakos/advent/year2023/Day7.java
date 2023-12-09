@@ -31,7 +31,7 @@ public final class Day7 {
   }
 
   private static int solve(boolean task2) {
-    Card[] cards = Utils.lines(7, 2023)
+    Card[] cards = Utils.lines()
             .map(l -> new Card(l, task2))
             .sorted(strengthComparator().thenComparing(valuesComparator(task2 ? cards2 : cards1)))
             .toArray(Card[]::new);

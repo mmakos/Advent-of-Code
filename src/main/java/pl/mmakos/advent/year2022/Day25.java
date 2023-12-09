@@ -15,7 +15,7 @@ public final class Day25 {
   }
 
   private static String task1() {
-    return new SnafuNumber(Utils.lines(25, 2022)
+    return new SnafuNumber(Utils.lines()
             .map(SnafuNumber::new)
             .mapToLong(SnafuNumber::getNumber)
             .sum())

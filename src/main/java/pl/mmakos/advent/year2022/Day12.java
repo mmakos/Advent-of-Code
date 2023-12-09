@@ -19,7 +19,7 @@ public final class Day12 {
   }
 
   private static int task1() {
-    String[] lines = Utils.lines(12, 2022).toArray(String[]::new);
+    String[] lines = Utils.lines().toArray(String[]::new);
     return bfs(getStart('S', lines), lines, 'E', (value, newValue) ->
             ((newValue <= value + 1) && newValue >= 'a') ||
                     (value == 'S' && (newValue == 'a' || newValue == 'b')) ||
@@ -27,7 +27,7 @@ public final class Day12 {
   }
 
   private static int task2() {
-    String[] lines = Utils.lines(12, 2022).toArray(String[]::new);
+    String[] lines = Utils.lines().toArray(String[]::new);
     return bfs(getStart('E', lines), lines, 'a', (value, newValue) -> newValue >= value - 1);
   }
 

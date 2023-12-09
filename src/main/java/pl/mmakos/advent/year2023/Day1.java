@@ -24,7 +24,7 @@ public final class Day1 {
   private static int task1() {
     Pattern pattern = Pattern.compile("\\d");
 
-    return Utils.lines(1, 2023)
+    return Utils.lines()
             .map(s -> getFirstAndLastPattern(s, pattern)
                     .collect(Collectors.joining()))
             .mapToInt(Integer::parseInt)
@@ -34,7 +34,7 @@ public final class Day1 {
   private static int task2() {
     Pattern pattern = Pattern.compile(String.join("|", NUMBERS) + "|\\d");
 
-    return Utils.lines(1, 2023)
+    return Utils.lines()
             .map(s -> getFirstAndLastPattern(s, pattern)
                     .map(Day1::parseInt)
                     .map(Object::toString)

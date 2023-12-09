@@ -12,7 +12,7 @@ public class Day2 {
   }
 
   private static int task1() {
-    return Utils.lines(2, 2022)
+    return Utils.lines()
             .map(s -> s.split(" "))
             .map(s -> new int[]{first(s[0]), second(s[1])})
             .mapToInt(s -> score(s[0], s[1]))
@@ -20,7 +20,7 @@ public class Day2 {
   }
 
   private static int task2() {
-    return Utils.lines(2, 2022)
+    return Utils.lines()
             .map(s -> s.split(" "))
             .map(s -> new int[]{first(s[0]), second(s[1])})
             .map(s -> new int[]{s[0], second(s[0], s[1])})

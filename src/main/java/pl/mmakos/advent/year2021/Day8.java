@@ -144,7 +144,7 @@ public final class Day8 {
   }
 
   private static Stream<String[][]> input() {
-    return Utils.lines(8, 2021)
+    return Utils.lines()
             .map(line -> stream(line.split(" \\| "))
                     .map(s -> s.split(" "))
                     .toArray(String[][]::new));

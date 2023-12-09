@@ -23,7 +23,7 @@ public final class Day19 {
   }
 
   private static int task1() {
-    Blueprint[] blueprints = Utils.strings(19, 2022, Utils.ENDL)
+    Blueprint[] blueprints = Utils.strings(Utils.ENDL)
             .map(Blueprint::new)
             .toArray(Blueprint[]::new);
 
@@ -37,7 +37,7 @@ public final class Day19 {
   }
 
   private static int task2() {
-    Blueprint[] blueprints = Utils.strings(19, 2022, Utils.ENDL)
+    Blueprint[] blueprints = Utils.strings(Utils.ENDL)
             .limit(3)
             .map(Blueprint::new)
             .toArray(Blueprint[]::new);

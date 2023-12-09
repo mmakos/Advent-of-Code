@@ -13,7 +13,7 @@ public class Day3 {
   }
 
   private static int task1() {
-    return Utils.lines(3, 2022)
+    return Utils.lines()
             .map(s -> new String[]{s.substring(0, s.length() / 2), s.substring(s.length() / 2)})
             .mapToInt(s -> getSameLetters(s[0], s[1])[0])
             .map(Day3::normalize)
@@ -21,7 +21,7 @@ public class Day3 {
   }
 
   private static int task2() {
-    return Utils.lines(3, 2022, 3)
+    return Utils.lines(3)
             .map(Stream::toList)
             .mapToInt(lines -> getSameLetter(lines.get(0), lines.get(1), lines.get(2)))
             .map(Day3::normalize)

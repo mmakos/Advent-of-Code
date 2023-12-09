@@ -68,7 +68,7 @@ public final class Day5 {
   }
 
   private static Pair<long[], Mapper[][]> input() {
-    String[] array = Utils.strings(5, 2023, Utils.ENDL_2).toArray(String[]::new);
+    String[] array = Utils.strings(Utils.ENDL_2).toArray(String[]::new);
 
     long[] seeds = Utils.toLongs(array[0].split(": ")[1]);
 
