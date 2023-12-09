@@ -16,4 +16,12 @@ public record Point(int x, int y) {
   public Point bottom() {
     return new Point(x, y + 1);
   }
+
+  public Point moveX(int x) {
+    return new Point(x, y);
+  }
+
+  public Point moveY(int y) {
+    return new Point(x, y);
+  }
 }
