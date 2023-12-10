@@ -161,6 +161,14 @@ public class Utils {
             .toArray();
   }
 
+  public static boolean[] toPrimitiveBools(List<Boolean> list) {
+    boolean[] bools = new boolean[list.size()];
+    for (int i = 0; i < list.size(); ++i) {
+      bools[i] = list.get(i);
+    }
+    return bools;
+  }
+
   public static Iterator<Character> iterator(char[] chars) {
     return IntStream.iterate(0, i -> ++i % chars.length)
             .mapToObj(i -> chars[i])
