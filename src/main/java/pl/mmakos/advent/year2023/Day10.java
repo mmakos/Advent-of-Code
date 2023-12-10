@@ -40,8 +40,6 @@ public final class Day10 {
       .filter(i -> i == 0b10000)
       .count();
 
-    print(input);
-
     return new int[]{task1, task2};
   }
 
@@ -54,7 +52,7 @@ public final class Day10 {
     for (; !current.equals(startPoint); ++i) {
       markInsidePoints(points, current, instideDirection);
 
-      PointAndTurn neighbour = getNeighbour(points, current, previous);
+      PointAndDir neighbour = getNeighbour(points, current, previous);
       previous = current;
       current = neighbour.point;
       instideDirection += neighbour.turn;
@@ -83,7 +81,7 @@ public final class Day10 {
 
     while (!current.equals(startPoint)) {
       loopPoints.add(current);
-      PointAndTurn neighbour = getNeighbour(points, current, previous);
+      PointAndDir neighbour = getNeighbour(points, current, previous);
       previous = current;
       current = neighbour.point;
     }
@@ -137,8 +135,8 @@ public final class Day10 {
     }
   }
 
-  private static PointAndTurn getNeighbour(int[][] points, Point point, Point previous) {
-    List<PointAndTurn> neighbours = getNeighbours(points, point);
+  private static PointAndDir getNeighbour(int[][] points, Point point, Point previous) {
+    List<PointAndDir> neighbours = getNeighbours(points, point);
     return neighbours.get(0).point.equals(previous) ? neighbours.get(1) : neighbours.get(0);
   }
 
@@ -158,25 +156,17 @@ public final class Day10 {
     throw new IllegalStateException();
   }
 
-  private static List<PointAndTurn> getNeighbours(int[][] points, Point point) {
-    List<Pair<Point, Integer>> neighbours = new ArrayList<>(2);
+  private static List<PointAndDir> getNeighbours(int[][] points, Point point) {
+    List<Pair<Point, Integer>> neighboursAndDirs = new ArrayList<>(2);
     int value = points[point.y()][point.x()];
 
-    if ((value & 0b1000) > 0) {
-      neighbours.add(new Pair<>(point.right(), 0));
-    }
-    if ((value & 0b0100) > 0) {
-      neighbours.add(new Pair<>(point.bottom(), 1));
-    }
-    if ((value & 0b0010) > 0) {
-      neighbours.add(new Pair<>(point.left(), 2));
-    }
-    if ((value & 0b0001) > 0) {
-      neighbours.add(new Pair<>(point.top(), 3));
-    }
+    if ((value & 0b1000) > 0) neighboursAndDirs.add(new Pair<>(point.right(), 0));
+    if ((value & 0b0100) > 0) neighboursAndDirs.add(new Pair<>(point.bottom(), 1));
+    if ((value & 0b0010) > 0) neighboursAndDirs.add(new Pair<>(point.left(), 2));
+    if ((value & 0b0001) > 0) neighboursAndDirs.add(new Pair<>(point.top(), 3));
 
-    return neighbours.stream()
-      .map(p -> new PointAndTurn(p.first(), getTurn(points[p.first().y()][p.first().x()], p.second())))
+    return neighboursAndDirs.stream()
+      .map(p -> new PointAndDir(p.first(), getTurn(points[p.first().y()][p.first().x()], p.second())))
       .toList();
   }
 
@@ -201,7 +191,6 @@ public final class Day10 {
     if (next == 0b1010 || next == 0b0101) {
       return 0;
     }
-
     if (direction == 0) return (next & 0b0001) > 0 ? -1 : 1;
     if (direction == 2) return (next & 0b0001) > 0 ? 1 : -1;
     if (direction == 1) return (next & 0b0010) > 0 ? 1 : -1;
@@ -210,30 +199,6 @@ public final class Day10 {
     throw new IllegalStateException();
   }
 
-  private record PointAndTurn(Point point, int turn) {
-  }
-
-  private static void print(int[][] array) {
-    System.err.println(
-      Utils.toString(
-        Arrays.stream(array)
-          .map(i -> Arrays.stream(i)
-            .mapToObj(j -> (Utils.Char) () -> switch (j) {
-              case 0b0000 -> '.';
-              case 0b10000 -> 'I';
-              case 0b1111 -> 'S';
-              case 0b1010 -> '-';
-              case 0b0101 -> '|';
-              case 0b1100 -> 'F';
-              case 0b0110 -> '7';
-              case 0b0011 -> 'J';
-              case 0b1001 -> 'L';
-              default -> ' ';
-            })
-            .toArray(Utils.Char[]::new)
-          )
-          .toArray(Utils.Char[][]::new)
-      )
-    );
+  private record PointAndDir(Point point, int turn) {
   }
 }
