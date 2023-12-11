@@ -1,6 +1,8 @@
 package pl.mmakos.advent.utils;
 
+import java.util.Map;
 import java.util.function.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public record Pair<T1, T2>(T1 first, T2 second) {
@@ -27,6 +29,10 @@ public record Pair<T1, T2>(T1 first, T2 second) {
       return pairStream(stream.map(v -> new Pair<>(firstMapper.apply(v), secondMapper.apply(v))));
     }
 
+    public static <V1, V2> Stream<V1, V2> pairStream(Map<V1, V2> map) {
+      return new Stream<>(map.entrySet().stream().map(e -> new Pair<>(e.getKey(), e.getValue())));
+    }
+
     public java.util.stream.Stream<Pair<T1, T2>> unwrap() {
       return innerStream;
     }
@@ -50,6 +56,10 @@ public record Pair<T1, T2>(T1 first, T2 second) {
       return new Stream<>(innerStream.map(p -> p.mapFirst(mapper)));
     }
 
+    public <T> Stream<T, T2> flatMapFirst(Function<T1, java.util.stream.Stream<T>> mapper) {
+      return new Stream<>(innerStream.flatMap(p -> mapper.apply(p.first()).map(c -> new Pair<>(c, p.second()))));
+    }
+
     public <T> Stream<T1, T> mapSecond(Function<T2, T> mapper) {
       return new Stream<>(innerStream.map(p -> p.mapSecond(mapper)));
     }
@@ -60,6 +70,10 @@ public record Pair<T1, T2>(T1 first, T2 second) {
 
     public void forEach(BiConsumer<T1, T2> function) {
       innerStream.forEach(p -> function.accept(p.first, p.second));
+    }
+
+    public Map<T1, T2> toMap() {
+      return innerStream.collect(Collectors.toMap(Pair::first, Pair::second));
     }
   }
 }
