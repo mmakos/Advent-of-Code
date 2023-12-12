@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.function.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 public record Pair<T1, T2>(T1 first, T2 second) {
   public <T> Pair<T1, T> mapSecond(Function<T2, T> mapper) {
@@ -66,6 +67,10 @@ public record Pair<T1, T2>(T1 first, T2 second) {
 
     public IntStream mapToInt(BiFunction<T1, T2, Integer> mapper) {
       return innerStream.mapToInt(p -> mapper.apply(p.first, p.second));
+    }
+
+    public LongStream mapToLong(BiFunction<T1, T2, Long> mapper) {
+      return innerStream.mapToLong(p -> mapper.apply(p.first, p.second));
     }
 
     public void forEach(BiConsumer<T1, T2> function) {
