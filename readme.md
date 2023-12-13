@@ -12,5 +12,9 @@ Inputs are stored in `input` directory - one dir per year and one txt file per d
 
 _Good luck with solving Advent of Code puzzles._
 
+## Fun
+
+In `fun` directory I place some solutions which are written in other languages (just for fun), for example [Rockstar language](https://codewithrockstar.com/) - code looks like rockstar ballade.
+
 ![Advent of Code 2022 final image](img/aoc2022.png)
 
