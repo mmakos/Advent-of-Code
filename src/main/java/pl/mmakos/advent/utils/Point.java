@@ -24,4 +24,20 @@ public record Point(int x, int y) {
   public Point moveY(int y) {
     return new Point(x, y);
   }
+
+  public Point translateX(int x) {
+    return new Point(this.x + x, y);
+  }
+
+  public Point translateY(int y) {
+    return new Point(x, this.y + y);
+  }
+
+  public Point translate(int x, int y) {
+    return new Point(this.x + x, this.y + y);
+  }
+
+  public boolean isAfter(Rect rect) {
+    return x >= rect.x() + rect.width() || y >= rect.y() + rect.height();
+  }
 }
