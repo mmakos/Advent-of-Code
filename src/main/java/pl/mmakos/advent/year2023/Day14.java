@@ -1,162 +1,138 @@
 package pl.mmakos.advent.year2023;
 
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import pl.mmakos.advent.utils.Pair;
-import pl.mmakos.advent.utils.Point;
+import lombok.RequiredArgsConstructor;
 import pl.mmakos.advent.utils.Utils;
 
-import java.util.*;
-import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.IntStream;
 
+@SuppressWarnings("StatementWithEmptyBody")
 @NoArgsConstructor(access = AccessLevel.NONE)
 public final class Day14 {
   public static final int CYCLES = 1_000_000_000;
 
-  // I've implemented in with sets of points, and it works in milliseconds,
-  // but array implementation would probably be more efficient
+  // Earlier I've implemented it with point sets in hope, that second task will be much lager than size.
+  // Unfortunately it was much larger in iterations, not size.
+  // In first solution, task 1 completes after ~60ms and task 2 after ~1700ms!
+  // In this solution it takes only: task 1 - ~25ms, task 2 - ~45ms!
+  // So it's much better (caching sets is much more time-consuming).
   @SuppressWarnings("java:S106")
   public static void main(String[] args) {
     System.err.println("TASK 1: " + task1());
     System.err.println("TASK 2: " + task2());
   }
 
-  private static int task1() {
-    Input input = input();
-    Set<Point> rounded = input.rounded();
-    Set<Point> squared = input.squared();
-    int height = input.height;
+  private static long task1() {
+    char[][] input = input();
 
-    for (int i = 1; i < height; ++i) {
-      moveUp(i, rounded, squared);
+    for (int i = 1; i < input.length; ++i) {
+      moveUp(i, input);
     }
-    return count(rounded, height);
+    return count(input);
   }
 
-  // Whole trick to task 1 is to find repeating pattern
+  // Whole trick to task 2 is to find repeating pattern
   @SuppressWarnings("java:S127")
-  private static int task2() {
-    Input input = input();
-    Set<Point> rounded = input.rounded();
-    Set<Point> squared = input.squared();
-    int width = input.width;
-    int height = input.height;
+  private static long task2() {
+    char[][] input = input();
 
-    List<Pair<Set<Point>, Set<Point>>> cache = new ArrayList<>();
+    Map<CacheKey, Integer> cache = new HashMap<>();
 
     for (int i = 0; i < CYCLES; ++i) {
-      moveCycle(rounded, squared, width, height);
-      Pair<Set<Point>, Set<Point>> pair = new Pair<>(new HashSet<>(rounded), new HashSet<>(squared));
-      int pIdx = cache.indexOf(pair);
-      if (pIdx != -1) {
-        // i is what's left after 'n' repetitions of length 'cache.size() - pIdx'
-        i = CYCLES - ((CYCLES - i) % (cache.size() - pIdx));
+      moveCycle(input);
+      Integer cached = cache.get(new CacheKey(input));
+      if (cached != null) {
+        i = CYCLES - ((CYCLES - i) % (cache.size() - cached));
       } else {
-        cache.add(pair);
+        cache.put(new CacheKey(Utils.deepCopy(input)), i);
       }
     }
 
-    return count(rounded, height);
+    return count(input);
   }
 
-  private static int count(Set<Point> rounded, int height) {
-    return rounded.stream()
-            .mapToInt(Point::y)
-            .map(y -> height - y)
+  private static void moveCycle(char[][] array) {
+    for (int i = 1; i < array.length; ++i) {
+      moveUp(i, array);
+    }
+    for (int i = 1; i < array[0].length; ++i) {
+      moveLeft(i, array);
+    }
+    for (int i = array.length - 1; i >= 0; --i) {
+      moveDown(i, array);
+    }
+    for (int i = array[0].length - 1; i >= 0; --i) {
+      moveRight(i, array);
+    }
+  }
+
+  private static void moveUp(int row, char[][] array) {
+    for (int i = 0; i < array[0].length; ++i) {
+      for (int j = row; j > 0 && move(i, j, 0, array); --j);
+    }
+  }
+
+  private static void moveDown(int row, char[][] array) {
+    for (int i = 0; i < array[0].length; ++i) {
+      for (int j = row; j < array.length - 1 && move(i, j, 2, array); ++j);
+    }
+  }
+
+  private static void moveLeft(int col, char[][] array) {
+    for (int i = 0; i < array.length; ++i) {
+      for (int j = col; j > 0 && move(j, i, 1, array); --j);
+    }
+  }
+
+  private static void moveRight(int col, char[][] array) {
+    for (int i = 0; i < array.length; ++i) {
+      for (int j = col; j < array[0].length - 1 && move(j, i, 3, array); ++j);
+    }
+  }
+
+  private static boolean move(int x, int y, int dir, char[][] array) {
+    if (array[y][x] != 'O') return false;
+
+    if (dir == 0) { // UP
+      if (array[y - 1][x] != '.') return false;
+      array[y - 1][x] = 'O';
+    } else if (dir == 1) { // LEFT
+      if (array[y][x - 1] != '.') return false;
+      array[y][x - 1] = 'O';
+    } else if (dir == 2) { // DOWN
+      if (array[y + 1][x] != '.') return false;
+      array[y + 1][x] = 'O';
+    } else if (dir == 3) { // RIGHT
+      if (array[y][x + 1] != '.') return false;
+      array[y][x + 1] = 'O';
+    }
+
+    array[y][x] = '.';
+    return true;
+  }
+  // Whole trick to task 1 is to find repeating pattern
+
+  private static long count(char[][] array) {
+    return IntStream.range(0, array.length)
+            .mapToLong(i -> IntStream.range(0, array[0].length)
+                    .filter(j -> array[i][j] == 'O')
+                    .count() * (array.length - i))
             .sum();
   }
 
-  private static void moveCycle(Set<Point> rounded, Set<Point> squared, int width, int height) {
-    for (int i = 1; i < height; ++i) {
-      moveUp(i, rounded, squared);
-    }
-    for (int i = 1; i < width; ++i) {
-      moveLeft(i, rounded, squared);
-    }
-    for (int i = height - 1; i >= 0; --i) {
-      moveDown(i, height, rounded, squared);
-    }
-    for (int i = width - 1; i >= 0; --i) {
-      moveRight(i, width, rounded, squared);
-    }
+  private static char[][] input() {
+    return Utils.lines()
+            .map(String::toCharArray)
+            .toArray(char[][]::new);
   }
 
-  private static void moveUp(int row, Set<Point> rounded, Set<Point> squared) {
-    new ArrayList<>(rounded).stream()
-            .filter(p -> p.y() == row)
-            .forEach(p -> moveRounded(p, rounded, squared, Point::top, pt -> pt.y() >= 0));
-  }
-
-  private static void moveDown(int row, int height, Set<Point> rounded, Set<Point> squared) {
-    new ArrayList<>(rounded).stream()
-            .filter(p -> p.y() == row)
-            .forEach(p -> moveRounded(p, rounded, squared, Point::bottom, pt -> pt.y() < height));
-  }
-
-  private static void moveLeft(int col, Set<Point> rounded, Set<Point> squared) {
-    new ArrayList<>(rounded).stream()
-            .filter(p -> p.x() == col)
-            .forEach(p -> moveRounded(p, rounded, squared, Point::left, pt -> pt.x() >= 0));
-  }
-
-  private static void moveRight(int col, int width, Set<Point> rounded, Set<Point> squared) {
-    new ArrayList<>(rounded).stream()
-            .filter(p -> p.x() == col)
-            .forEach(p -> moveRounded(p, rounded, squared, Point::right, pt -> pt.x() < width));
-  }
-
-  private static void moveRounded(Point rock, Set<Point> rounded, Set<Point> squared,
-          UnaryOperator<Point> move, Predicate<Point> canMove) {
-    Point up = move.apply(rock);
-    Point highest = rock;
-    while (canMove.test(up) && !rounded.contains(up) && !squared.contains(up)) {
-      highest = up;
-      up = move.apply(up);
-    }
-    if (rock != highest) {
-      rounded.remove(rock);
-      rounded.add(highest);
-    }
-  }
-
-  private static Input input() {
-    int[][] input = Utils.lines()
-            .map(String::chars)
-            .map(IntStream::toArray)
-            .toArray(int[][]::new);
-
-    Set<Point> rounded = IntStream.range(0, input.length)
-            .boxed()
-            .flatMap(i -> IntStream.range(0, input[0].length)
-                    .filter(j -> input[i][j] == 'O')
-                    .mapToObj(j -> new Point(j, i)))
-            .collect(Collectors.toSet());
-
-    Set<Point> squared = IntStream.range(0, input.length)
-            .boxed()
-            .flatMap(i -> IntStream.range(0, input[0].length)
-                    .filter(j -> input[i][j] == '#')
-                    .mapToObj(j -> new Point(j, i)))
-            .collect(Collectors.toSet());
-
-    return new Input(rounded, squared, input[0].length, input.length);
-  }
-
-  private record Input(Set<Point> rounded, Set<Point> squared, int width, int height) {
-  }
-
-  public static String toString(int width, int height, Set<Point> rounded, Set<Point> squared) {
-    char[][] c = new char[height][width];
-
-    for (char[] ch : c) {
-      Arrays.fill(ch, '.');
-    }
-
-    rounded.forEach(p -> c[p.y()][p.x()] = 'O');
-    squared.forEach(p -> c[p.y()][p.x()] = '#');
-    return Utils.toString(c);
+  @EqualsAndHashCode
+  @RequiredArgsConstructor
+  private static class CacheKey {
+    private final char[][] array;
   }
 }
