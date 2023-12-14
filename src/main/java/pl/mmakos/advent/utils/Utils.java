@@ -169,6 +169,14 @@ public class Utils {
     return bools;
   }
 
+  public static char[][] deepCopy(char[][] chars) {
+    char[][] copy = new char[chars.length][];
+    for (int i = 0; i < chars.length; ++i) {
+      copy[i] = Arrays.copyOf(chars[i], chars[i].length);
+    }
+    return copy;
+  }
+
   public static Iterator<Character> iterator(char[] chars) {
     return IntStream.iterate(0, i -> ++i % chars.length)
             .mapToObj(i -> chars[i])
