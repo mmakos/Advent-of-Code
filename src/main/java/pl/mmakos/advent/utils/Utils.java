@@ -24,6 +24,22 @@ public class Utils {
   public static final String ENDL = System.lineSeparator();
   public static final String ENDL_2 = ENDL.repeat(2);
 
+  public static int[][] intArrayInput() {
+    int[] dayAndYear = getDayAndYear();
+    return lines(dayAndYear[0], dayAndYear[1])
+            .map(s -> s.chars()
+                    .map(i -> i - '0')
+                    .toArray())
+            .toArray(int[][]::new);
+  }
+
+  public static char[][] charArrayInput() {
+    int[] dayAndYear = getDayAndYear();
+    return lines(dayAndYear[0], dayAndYear[1])
+            .map(String::toCharArray)
+            .toArray(char[][]::new);
+  }
+
   public static String read() {
     int[] dayAndYear = getDayAndYear();
     return read(dayAndYear[0], dayAndYear[1]);
