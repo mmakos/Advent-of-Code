@@ -4,6 +4,10 @@ package pl.mmakos.advent.utils;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
+@SuppressWarnings("unused")
 @EqualsAndHashCode
 @RequiredArgsConstructor
 public class Point {
@@ -32,6 +36,35 @@ public class Point {
 
   public Point bottom() {
     return new Point(x, y + 1);
+  }
+
+  public Point neighbour(int dir) {
+    return switch (dir) {
+      case 0 -> right();
+      case 1 -> bottom();
+      case 2 -> left();
+      case 3 -> top();
+      default -> throw new IllegalArgumentException();
+    };
+  }
+
+  public Point[] neighbours() {
+    return new Point[]{right(), left(), bottom(), top()};
+  }
+
+  public Stream<Point> neighbours(Rect bounds) {
+    return Arrays.stream(neighbours())
+            .filter(p -> p.validBounds(bounds));
+  }
+
+  public Point translateDir(int amount, int direction) {
+    return switch (direction) {
+      case 0 -> translateX(amount);
+      case 1 -> translateY(amount);
+      case 2 -> translateX(-amount);
+      case 3 -> translateY(-amount);
+      default -> throw new IllegalArgumentException();
+    };
   }
 
   public Point moveX(int x) {
@@ -72,5 +105,9 @@ public class Point {
 
   public boolean validBounds(int x, int y, int width, int height) {
     return this.x >= x && this.y >= y && this.x < x + width && this.y < y + height;
+  }
+
+  public boolean validBounds(Rect rect) {
+    return validBounds(rect.x(), rect.y(), rect.width(), rect.height());
   }
 }
