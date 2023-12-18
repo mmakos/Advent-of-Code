@@ -43,7 +43,7 @@ public final class Day18 {
 
     long pathLength = 0;
     for (Move move : moves) {
-      path.add(path.getLast().translateDir(move.amount, move.direction));
+      path.add(path.get(path.size() - 1).translateDir(move.amount, move.direction));
       pathLength += move.amount;
     }
 

@@ -141,6 +141,14 @@ public class Utils {
     return sb.toString();
   }
 
+  public static String toString(Collection<Point> points) {
+    Rect bounds = Rect.bounds(points);
+    char[][] chars = new char[bounds.height()][bounds.width()];
+    deepFill(chars, '.');
+    points.forEach(p -> chars[p.y() - bounds.y()][p.x() - bounds.x()] = '#');
+    return toString(chars);
+  }
+
   public static int[] toInts(String str, String delimiter) {
     return Arrays.stream(str.split(delimiter))
             .mapToInt(Integer::parseInt)
@@ -191,6 +199,12 @@ public class Utils {
       copy[i] = Arrays.copyOf(chars[i], chars[i].length);
     }
     return copy;
+  }
+
+  public static void deepFill(char[][] chars, char c) {
+    for (char[] ch : chars) {
+      Arrays.fill(ch, c);
+    }
   }
 
   public static Iterator<Character> iterator(char[] chars) {

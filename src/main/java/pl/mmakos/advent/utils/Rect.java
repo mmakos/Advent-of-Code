@@ -5,6 +5,14 @@ import java.util.IntSummaryStatistics;
 
 @SuppressWarnings("unused")
 public record Rect(int x, int y, int width, int height) {
+  public int maxX() {
+    return x + width - 1;
+  }
+
+  public int maxY() {
+    return y + height - 1;
+  }
+
   public boolean contains(Point point) {
     return point.x() >= x && point.y() >= y && point.x() < x + width && point.y() < y + height;
   }
