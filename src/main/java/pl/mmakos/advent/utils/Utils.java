@@ -193,6 +193,14 @@ public class Utils {
     return bools;
   }
 
+  public static int[][] deepCopy(int[][] ints) {
+    int[][] copy = new int[ints.length][];
+    for (int i = 0; i < ints.length; ++i) {
+      copy[i] = Arrays.copyOf(ints[i], ints[i].length);
+    }
+    return copy;
+  }
+
   public static char[][] deepCopy(char[][] chars) {
     char[][] copy = new char[chars.length][];
     for (int i = 0; i < chars.length; ++i) {
