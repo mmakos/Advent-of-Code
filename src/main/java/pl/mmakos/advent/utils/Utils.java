@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -120,6 +121,15 @@ public class Utils {
       x *= a;
     }
     return x;
+  }
+
+  public static long lcm(long... longs) {
+    BigInteger lcm = BigInteger.valueOf(longs[0]);
+    for (int i = 1; i < longs.length; ++i) {
+      BigInteger b = BigInteger.valueOf(longs[i]);
+      lcm = lcm.multiply(b).divide(lcm.gcd(b));
+    }
+    return lcm.longValue();
   }
 
   public static String toString(char[][] chars) {

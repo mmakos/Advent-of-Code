@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import pl.mmakos.advent.utils.Pair;
 import pl.mmakos.advent.utils.Utils;
 
-import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -57,13 +56,7 @@ public final class Day8 {
 
     return firsts.stream()
             .mapToLong(i -> i)
-            .reduce(1, Day8::lcm);
-  }
-
-  private static long lcm(long l1, long l2) {
-    BigInteger b1 = BigInteger.valueOf(l1);
-    BigInteger b2 = BigInteger.valueOf(l2);
-    return b1.multiply(b2).divide(b1.gcd(b2)).longValue();
+            .reduce(1, Utils::lcm);
   }
 
   private static Pair<char[], Map<String, String[]>> input() {
