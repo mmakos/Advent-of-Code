@@ -5,6 +5,9 @@ import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @SuppressWarnings("unused")
@@ -109,5 +112,24 @@ public class Point {
 
   public boolean validBounds(Rect rect) {
     return validBounds(rect.x(), rect.y(), rect.width(), rect.height());
+  }
+
+  public static Set<Point> fromCharArray(char[][] array, char pointChar) {
+    return IntStream.range(0, array.length)
+            .boxed()
+            .flatMap(i -> IntStream.range(0, array[i].length)
+                    .filter(j -> array[i][j] == pointChar)
+                    .mapToObj(j -> new Point(j, i)))
+            .collect(Collectors.toSet());
+  }
+
+  public static Point of(char[][] array, char distinctChar) {
+    return IntStream.range(0, array.length)
+            .boxed()
+            .flatMap(i -> IntStream.range(0, array[i].length)
+                    .filter(j -> array[i][j] == distinctChar)
+                    .mapToObj(j -> new Point(j, i))
+            ).findFirst()
+            .orElseThrow();
   }
 }
