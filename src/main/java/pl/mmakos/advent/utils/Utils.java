@@ -105,6 +105,12 @@ public class Utils {
             .reduce(p1, Predicate::or);
   }
 
+  @SafeVarargs
+  public static <T> Predicate<T> and(Predicate<T> p1, Predicate<T>... p2) {
+    return Arrays.stream(p2)
+            .reduce(p1, Predicate::and);
+  }
+
   public static Stream<String> split(String s, int batchSize) {
     return IntStream.range(0, s.length())
             .filter(i -> i % batchSize == 0)
