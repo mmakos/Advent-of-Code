@@ -1,5 +1,6 @@
 package pl.mmakos.advent.year2023;
 
+import com.microsoft.z3.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import pl.mmakos.advent.utils.Utils;
@@ -8,12 +9,12 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 
+@SuppressWarnings("java:S106")
 @NoArgsConstructor(access = AccessLevel.NONE)
 public final class Day24 {
   private static final BigDecimal br = BigDecimal.valueOf(200_000_000_000_000L);
   private static final BigDecimal tr = BigDecimal.valueOf(400_000_000_000_000L);
 
-  @SuppressWarnings("java:S106")
   public static void main(String[] args) {
     System.err.println("TASK 1: " + task1());
     System.err.println("TASK 2: " + task2());
@@ -45,8 +46,55 @@ public final class Day24 {
     return sum;
   }
 
-  private static int task2() {
-    return 0;
+  // For part 2 you need to get Z3 library. If you are using my build.gradle, then it should automatically download it.
+  @SuppressWarnings("resource")
+  private static long task2() {
+    Path[] input = input();
+
+    // We have 6 + n variables, and each path (hailstone, n) generates 3 equations
+    // So we need to consider 3 (non-collinear hailstones), because it gives us 9 equations and 9 variables
+    // Equations for n point:
+    // x + t0 * vx = nx + t0 * nvx
+    // y + t1 * vy = ny + t1 * nvy
+    // z + t2 * vz = nz + t2 * nvz
+    Context ctx = new Context();
+    Solver solver = ctx.mkSolver();
+
+    IntExpr x = ctx.mkIntConst("x");
+    IntExpr y = ctx.mkIntConst("y");
+    IntExpr z = ctx.mkIntConst("z");
+    IntExpr vx = ctx.mkIntConst("vx");
+    IntExpr vy = ctx.mkIntConst("vy");
+    IntExpr vz = ctx.mkIntConst("vz");
+
+    for (int i = 0; i < 3; ++i) {
+      Path path = input[i];
+      IntExpr t = ctx.mkIntConst("t" + i);
+
+      System.err.printf("x + t%d * vx = %d + t%d * %d,%n", i, path.x, i, path.vx);
+      BoolExpr eqx = ctx.mkEq(ctx.mkAdd(x, ctx.mkMul(t, vx)),
+          ctx.mkAdd(ctx.mkInt(path.x), ctx.mkMul(t, ctx.mkInt(path.vx))));
+
+      System.err.printf("y + t%d * vy = %d + t%d * %d,%n", i, path.y, i, path.vy);
+      BoolExpr eqy = ctx.mkEq(ctx.mkAdd(y, ctx.mkMul(t, vy)),
+          ctx.mkAdd(ctx.mkInt(path.y), ctx.mkMul(t, ctx.mkInt(path.vy))));
+
+      System.err.printf("z + t%d * vz = %d + t%d * %d,%n", i, path.z, i, path.vz);
+      BoolExpr eqz = ctx.mkEq(ctx.mkAdd(z, ctx.mkMul(t, vz)),
+          ctx.mkAdd(ctx.mkInt(path.z), ctx.mkMul(t, ctx.mkInt(path.vz))));
+
+      solver.add(eqx);
+      solver.add(eqy);
+      solver.add(eqz);
+    }
+
+    solver.check();
+    Model model = solver.getModel();
+    long sx = ((IntNum) model.eval(x, false)).getInt64();
+    long sy = ((IntNum) model.eval(y, false)).getInt64();
+    long sz = ((IntNum) model.eval(z, false)).getInt64();
+
+    return sx + sy + sz;
   }
 
   private static Point intersectionPoint(Path p1, Path p2) {
