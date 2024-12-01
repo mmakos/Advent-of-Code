@@ -2,17 +2,43 @@
 #include <vector>
 
 #include <filesystem>
+#include <ranges>
 #include <utils.h>
+#include <bits/ranges_algo.h>
 
 constexpr int day = 1;
 constexpr int year = 2024;
 
-int solve1(const std::vector<std::string> &input) {
-  return 0; // TODO
+std::pair<std::vector<int>, std::vector<int>> parseInput(const std::vector<std::string> &input) {
+  std::vector<int> first;
+  std::vector<int> second;
+  for (const auto &s : input) {
+    first.push_back(std::stoi(s.substr(0, 5)));
+    second.push_back(std::stoi(s.substr(8)));
+  }
+  return std::make_pair(first, second);
 }
 
-int solve2(const std::vector<std::string> &input) {
-  return 0; // TODO
+
+int solve1(const std::vector<std::string> &input) {
+  auto [first, second] = parseInput(input);
+  std::ranges::sort(first);
+  std::ranges::sort(second);
+  int sum = 0;
+  for (const auto [a, b] : std::views::zip(first, second)) {
+    sum += std::abs(a - b);
+  }
+  return sum;
+}
+
+long long solve2(const std::vector<std::string> &input) {
+  auto [first, second] = parseInput(input);
+
+  long long sum = 0;
+  for (const auto a : first) {
+    sum += a * std::ranges::count(second, a);
+  }
+  return sum;
 }
 
 int main() {
