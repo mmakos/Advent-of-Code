@@ -17,7 +17,7 @@ namespace aoc {
 
   std::string join(std::vector<std::string> const &elements, const char *delimiter = "");
 
-  std::vector<std::string> split(const std::string &input, char delimiter);
+  std::vector<std::string> split(const std::string &input, const std::regex &regex);
 }
 
 #endif //UTILS_H

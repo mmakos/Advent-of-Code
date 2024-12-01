@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 
-#include <filesystem>
 #include <ranges>
 #include <utils.h>
 #include <bits/ranges_algo.h>
@@ -12,9 +11,11 @@ constexpr int year = 2024;
 std::pair<std::vector<int>, std::vector<int>> parseInput(const std::vector<std::string> &input) {
   std::vector<int> first;
   std::vector<int> second;
+  const std::regex re(R"(\s+)");
   for (const auto &s : input) {
-    first.push_back(std::stoi(s.substr(0, 5)));
-    second.push_back(std::stoi(s.substr(8)));
+    auto split = aoc::split(s, re);
+    first.push_back(std::stoi(split[0]));
+    second.push_back(std::stoi(split[1]));
   }
   return std::make_pair(first, second);
 }
