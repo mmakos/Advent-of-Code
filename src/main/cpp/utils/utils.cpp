@@ -42,15 +42,12 @@ namespace aoc {
     return os.str();
   }
 
-  std::vector<std::string> split(const std::string &input, char delimiter) {
+
+  std::vector<std::string> split(const std::string &input, const std::regex &regex) {
     std::vector<std::string> output;
-    for (auto cur = begin(input), beg = cur; ; ++cur) {
-      if (cur == end(input) || *cur == delimiter || !*cur) {
-        output.emplace(output.end(), beg, cur);
-        if (cur == end(input) || !*cur)
-          break;
-        beg = next(cur);
-      }
+    std::sregex_token_iterator it(input.begin(), input.end(), regex, -1);
+    for (const std::sregex_token_iterator end; it != end; ++it) {
+      output.push_back(*it);
     }
     return output;
   }

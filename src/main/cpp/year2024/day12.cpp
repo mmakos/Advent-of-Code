@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 
-#include <filesystem>
 #include <utils.h>
 
 constexpr int day = 12;
