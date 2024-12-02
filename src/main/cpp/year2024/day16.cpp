@@ -15,7 +15,7 @@ int solve2(const std::vector<std::string> &input) {
 }
 
 int main() {
-  const std::vector<std::string> input = aoc::readInput(year, day);
+  const std::vector<std::string> input = aoc::readInput<std::string>(year, day);
 
   std::cout << "Advent of code " << year << ", day " << day << std::endl;
   std::cout << "TASK 1: " << solve1(input) << std::endl;

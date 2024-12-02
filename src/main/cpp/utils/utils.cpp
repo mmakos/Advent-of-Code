@@ -1,29 +1,21 @@
 #include "utils.h"
 
 #include <algorithm>
-#include <format>
-#include <fstream>
 #include <iterator>
 #include <sstream>
 
 namespace aoc {
-  std::vector<std::string> readInput(const int year, const int day) {
-    const auto filename = std::format("input/year{}/day{}.txt", year, day);
-    std::vector<std::string> lines;
-    std::ifstream file(filename);
+  std::vector<int> readInts(int year, int day) {
+    return readInput<int>(year, day, [](auto str) { return std::stoi(str); });
+  }
 
-    if (!file.is_open()) {
-      throw std::runtime_error(std::format(
-        "Could not open input file for day {} year {}: {}", day, year, filename));
-    }
-
-    std::string line;
-    while (std::getline(file, line)) {
-      lines.push_back(line);
-    }
-
-    file.close();
-    return lines;
+  std::vector<std::vector<int>> readNestedInts(int year, int day, const std::regex &split) {
+    return readInput<std::vector<int>>(year, day, [split](auto str) {
+      const std::vector<std::string> strings = aoc::split(str, split);
+      std::vector<int> ints(strings.size());
+      std::transform(strings.begin(), strings.end(), ints.begin(), [](auto str) { return std::stoi(str); });
+      return ints;
+    });
   }
 
   std::string join(std::vector<std::string> const &elements, const char *const delimiter) {
