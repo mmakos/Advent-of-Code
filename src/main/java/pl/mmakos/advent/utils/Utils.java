@@ -22,8 +22,8 @@ import static java.util.function.Predicate.not;
 @SuppressWarnings({"java:S112", "unused"})
 @NoArgsConstructor(access = AccessLevel.NONE)
 public class Utils {
-  public static final String ENDL = System.lineSeparator();
-  public static final String ENDL_2 = ENDL.repeat(2);
+  public static final String ENDL = "\r\n|\n|\r";
+  public static final String ENDL_2 = "\r\n\r\n|\n\n|\r\r";
 
   public static int[][] intArrayInput() {
     int[] dayAndYear = getDayAndYear();
