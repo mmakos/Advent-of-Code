@@ -8,7 +8,7 @@
 constexpr int day = 1;
 constexpr int year = 2024;
 
-std::pair<std::vector<int>, std::vector<int>> parseInput(const std::vector<std::string> &input) {
+std::pair<std::vector<int>, std::vector<int>> parseInput(const aoc::input &input) {
   std::vector<int> first;
   std::vector<int> second;
   const std::regex re(R"(\s+)");
@@ -21,7 +21,7 @@ std::pair<std::vector<int>, std::vector<int>> parseInput(const std::vector<std::
 }
 
 
-int solve1(const std::vector<std::string> &input) {
+int solve1(const aoc::input &input) {
   auto [first, second] = parseInput(input);
   std::ranges::sort(first);
   std::ranges::sort(second);
@@ -32,7 +32,7 @@ int solve1(const std::vector<std::string> &input) {
   return sum;
 }
 
-long long solve2(const std::vector<std::string> &input) {
+long long solve2(const aoc::input &input) {
   auto [first, second] = parseInput(input);
 
   long long sum = 0;
@@ -43,7 +43,7 @@ long long solve2(const std::vector<std::string> &input) {
 }
 
 int main() {
-  const std::vector<std::string> input = aoc::readInput<std::string>(year, day);
+  const aoc::input input = aoc::readInput<std::string>(year, day);
 
   std::cout << "Advent of code " << year << ", day " << day << std::endl;
   std::cout << "TASK 1: " << solve1(input) << std::endl;

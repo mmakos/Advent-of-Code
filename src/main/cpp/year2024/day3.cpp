@@ -8,7 +8,7 @@ constexpr int year = 2024;
 
 const std::string mul = R"(mul\((\d{1,3}),(\d{1,3})\))";
 
-long long solve(const std::vector<std::string> &input, bool task2=false) {
+long long solve(const aoc::input &input, bool task2=false) {
   std::string inputStr = aoc::join(input, "\n");
   std::regex regex( task2 ? mul + R"(|do\(\)|don't\(\))" : mul);
 
@@ -29,16 +29,16 @@ long long solve(const std::vector<std::string> &input, bool task2=false) {
   return sum;
 }
 
-long long solve1(const std::vector<std::string> &input) {
+long long solve1(const aoc::input &input) {
   return solve(input);
 }
 
-long long solve2(const std::vector<std::string> &input) {
+long long solve2(const aoc::input &input) {
   return solve(input, true);
 }
 
 int main() {
-  const std::vector<std::string> input = aoc::readInput<std::string>(year, day);
+  const aoc::input input = aoc::readInput<std::string>(year, day);
 
   std::cout << "Advent of code " << year << ", day " << day << std::endl;
   std::cout << "TASK 1: " << solve1(input) << std::endl;

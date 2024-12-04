@@ -8,8 +8,10 @@
 #include <fstream>
 
 namespace aoc {
+  typedef std::vector<std::string> input;
+
   template<typename T>
-  std::vector<T> readInput(int year, int day, const std::function<T(const std::string&)> &valueProvider = [](auto str){return str;}) {
+  std::vector<T> readInput(int year, int day, const std::function<T(const std::string &)> &valueProvider = [](auto str) { return str; }) {
     const auto filename = std::format("input/year{}/day{}.txt", year, day);
     std::vector<T> lines;
     std::ifstream file(filename);
