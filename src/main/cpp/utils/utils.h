@@ -42,6 +42,11 @@ namespace aoc {
     return -1;
   }
 
+  template<typename T>
+  bool contains(const std::vector<T> &vec, const T &element) {
+    return std::ranges::find(vec, element) != vec.end();
+  }
+
   std::string join(std::vector<std::string> const &elements, const char *delimiter = "");
 
   std::vector<std::string> split(const std::string &input, const std::regex &regex);
