@@ -11,14 +11,15 @@ namespace aoc {
   typedef std::vector<std::string> input;
 
   template<typename T>
-  std::vector<T> readInput(int year, int day, const std::function<T(const std::string &)> &valueProvider = [](auto str) { return str; }) {
+  std::vector<T> readInput(int year, int day,
+                           const std::function<T(const std::string &)> &valueProvider = [](auto &str) { return str; }) {
     const auto filename = std::format("input/year{}/day{}.txt", year, day);
     std::vector<T> lines;
     std::ifstream file(filename);
 
     if (!file.is_open()) {
       throw std::runtime_error(std::format(
-          "Could not open input file for day {} year {}: {}", day, year, filename));
+        "Could not open input file for day {} year {}: {}", day, year, filename));
     }
 
     std::string line;
@@ -32,7 +33,7 @@ namespace aoc {
 
   std::vector<int> readInts(int year, int day);
 
-  std::vector<std::vector<int>> readNestedInts(int year, int day, const std::regex &split = std::regex(" "));
+  std::vector<std::vector<int> > readNestedInts(int year, int day, const std::regex &split = std::regex(" "));
 
   template<typename T>
   int indexOf(const std::vector<T> &vec, const T &element) {
@@ -50,6 +51,17 @@ namespace aoc {
   std::string join(std::vector<std::string> const &elements, const char *delimiter = "");
 
   std::vector<std::string> split(const std::string &input, const std::regex &regex);
+
+  template<typename T>
+  std::vector<T> findAll(const std::string &string, const std::regex &regex,
+                         const std::function<T(const std::string &)> &valueProvider = [](auto &str) { return str; }) {
+    std::vector<T> vector;
+    const std::sregex_iterator end;
+    for (auto it = std::sregex_iterator(string.begin(), string.end(), regex); it != end; ++it) {
+      vector.push_back(valueProvider(it->str()));
+    }
+    return vector;
+  }
 }
 
 #endif //UTILS_H

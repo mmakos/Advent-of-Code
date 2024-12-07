@@ -1,3 +1,4 @@
+#include <chrono>
 #include <iostream>
 #include <vector>
 #include <cmath>
@@ -7,57 +8,43 @@
 constexpr int day = 7;
 constexpr int year = 2024;
 
-unsigned long long sum(const std::vector<int> &numbers, int operators, const int base) {
-  unsigned long long sum = numbers[0];
-  int oper = operators % base;
-  for (int i = 0; i < numbers.size() - 1; ++i) {
-    if (oper == 0) {
-      sum *= numbers[i + 1];
-    } else if (oper == 1) {
-      sum += numbers[i + 1];
-    } else {
-      sum *= std::pow(10, static_cast<int>(std::log10(numbers[i + 1]) + 1));
-      sum += numbers[i + 1];
-    }
-    operators /= base;
-    oper = operators % base;
-  }
-  return sum;
+uint64_t stripEnd(const uint64_t number, const int end) {
+  const int a = static_cast<int>(std::pow(10, static_cast<int>(std::log10(end)) + 1));
+  if (number % a == end) return number / a;
+  return 0;
 }
 
-bool canSolve(const unsigned long long number, const std::vector<int> &numbers, const int base) {
-  const int iterations = std::pow(base, numbers.size() - 1);
-  for (int i = 0; i < iterations; ++i) {
-    if (sum(numbers, i, base) == number) return true;
-  }
-  return false;
+bool canSolve(const std::vector<uint64_t>::const_reverse_iterator &it,
+              const std::vector<uint64_t>::const_reverse_iterator &end,
+              const uint64_t result, const bool task2) {
+  const int number = static_cast<int>(*it);
+  if (it == end) return result == number;
+  if (result % number == 0 && canSolve(it + 1, end, result / number, task2)) return true;
+  const uint64_t stripped = stripEnd(result, number);
+  if (task2 && stripped > 0 && canSolve(it + 1, end, stripped, task2)) return true;
+  return canSolve(it + 1, end, result - number, task2);
 }
 
-std::pair<unsigned long long, unsigned long long> solve(const aoc::input &input) {
-  unsigned long long sum2 = 0;
-  unsigned long long sum3 = 0;
+std::pair<uint64_t, uint64_t> solve(const aoc::input &input) {
+  uint64_t task1 = 0, task2 = 0;
   for (auto &line: input) {
-    auto split = aoc::split(line, std::regex(": "));
-    auto split2 = aoc::split(split[1], std::regex(" "));
-    std::vector<int> numbers;
-    for (auto &s: split2) {
-      numbers.push_back(std::stoi(s));
-    }
-
-    if (const unsigned long long number = std::stoull(split[0]); canSolve(number, numbers, 2)) {
-      sum2 += number;
-    } else if (canSolve(number, numbers, 3)) {
-      sum3 += number;
+    std::vector<uint64_t> numbers = aoc::findAll<uint64_t>(line, std::regex(R"(\d+)"), [](auto &str) {
+      return static_cast<uint64_t>(std::stoull(str));
+    });
+    if (canSolve(numbers.rbegin(), numbers.rend() - 2, numbers[0], false)) {
+      task1 += numbers[0];
+    } else if (canSolve(numbers.rbegin(), numbers.rend() - 2, numbers[0], true)) {
+      task2 += numbers[0];
     }
   }
 
-  return std::make_pair(sum2, sum2 + sum3);
+  return std::make_pair(task1, task1 + task2);
 }
 
 int main() {
   const aoc::input input = aoc::readInput<std::string>(year, day);
-
   auto [solution1, solution2] = solve(input);
+
   std::cout << "Advent of code " << year << ", day " << day << std::endl;
   std::cout << "TASK 1: " << solution1 << std::endl;
   std::cout << "TASK 2: " << solution2 << std::endl;

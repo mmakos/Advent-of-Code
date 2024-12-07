@@ -5,15 +5,15 @@
 #include <sstream>
 
 namespace aoc {
-  std::vector<int> readInts(int year, int day) {
-    return readInput<int>(year, day, [](auto str) { return std::stoi(str); });
+  std::vector<int> readInts(const int year, const int day) {
+    return readInput<int>(year, day, [](auto &str) { return std::stoi(str); });
   }
 
-  std::vector<std::vector<int>> readNestedInts(int year, int day, const std::regex &split) {
-    return readInput<std::vector<int>>(year, day, [split](auto str) {
+  std::vector<std::vector<int>> readNestedInts(const int year, const int day, const std::regex &split) {
+    return readInput<std::vector<int>>(year, day, [split](auto &str) {
       const std::vector<std::string> strings = aoc::split(str, split);
       std::vector<int> ints(strings.size());
-      std::transform(strings.begin(), strings.end(), ints.begin(), [](auto str) { return std::stoi(str); });
+      std::transform(strings.begin(), strings.end(), ints.begin(), [](auto &s) { return std::stoi(s); });
       return ints;
     });
   }

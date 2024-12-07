@@ -64,7 +64,7 @@ std::pair<Rules, std::vector<std::vector<int>>> parseInput(const aoc::input &inp
 
   std::vector<std::vector<int>> pages;
   auto it = input.begin();
-  for (; !(*it).empty(); ++it);
+  for (; !it->empty(); ++it);
   ++it;
   for (; it != input.end(); ++it) {
     auto split = aoc::split(*it, std::regex(","));

@@ -66,7 +66,7 @@ std::unordered_map<Point, int, PointHash> solve(const std::unordered_set<Point, 
     pos.add(move);
     if (!pos.inBounds(width, height)) break;
     auto it = visited.find(pos);
-    if (it != visited.end() && ((*it).second & dir)) {
+    if (it != visited.end() && (it->second & dir)) {
       return {};
     }
     if (points.contains(pos)) {
