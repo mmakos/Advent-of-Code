@@ -7,14 +7,14 @@
 constexpr int day = 2;
 constexpr int year = 2024;
 
-bool valid(int i1, int i2, int direction) {
-  int diff = i2 - i1;
+bool valid(const int i1, const int i2, const int direction) {
+  const int diff = i2 - i1;
   return std::abs(diff) <= 3 && std::abs(diff) > 0 && (diff > 0 ? 1 : -1) == direction;
 }
 
 bool validReport(const std::vector<int> &report) {
   if (!(report[1] - report[0])) return false;
-  int direction = (report[1] - report[0]) > 0 ? 1 : -1;
+  const int direction = (report[1] - report[0]) > 0 ? 1 : -1;
 
   auto i2 = std::next(report.begin());
   for (auto i1 = report.begin(); valid(*i1, *i2, direction) && i2 != report.end(); ++i1, ++i2);
@@ -40,7 +40,7 @@ long long solve2(const std::vector<std::vector<int>> &reports) {
 }
 
 int main() {
-  const std::vector<std::vector<int>> input = aoc::readNestedInts(year, day);
+  const std::vector<std::vector<int>> input = aoc::readNestedInts(year, day, std::regex(" "));
 
   std::cout << "Advent of code " << year << ", day " << day << std::endl;
   std::cout << "TASK 1: " << solve1(input) << std::endl;

@@ -3,75 +3,43 @@
 #include <unordered_set>
 
 #include <utils.h>
+#include <point.h>
+#include <ranges>
 #include <unordered_map>
 
 constexpr int day = 6;
 constexpr int year = 2024;
 
-struct Point {
-  int x;
-  int y;
+std::pair<std::unordered_set<aoc::Point, aoc::PointHash>, aoc::Point> parseInput(const aoc::input &input) {
+  std::unordered_set<aoc::Point, aoc::PointHash> points;
 
-  bool operator==(const Point &other) const {
-    return x == other.x && y == other.y;
-  }
-
-  void rotate() {
-    int temp = x;
-    x = -y;
-    y = temp;
-  }
-
-  void add(Point &p) {
-    x += p.x;
-    y += p.y;
-  }
-
-  void sub(Point &p) {
-    x -= p.x;
-    y -= p.y;
-  }
-
-  [[nodiscard]] bool inBounds(int width, int height) const {
-    return x >= 0 && y >= 0 && x < width && y < height;
-  }
-};
-
-struct PointHash {
-  std::size_t operator()(const Point &p) const {
-    return std::hash<int>()(p.x) ^ (std::hash<int>()(p.y) << 1);
-  }
-};
-
-std::pair<std::unordered_set<Point, PointHash>, Point> parseInput(const aoc::input &input) {
-  std::unordered_set<Point, PointHash> points;
-
-  Point startPosition(0, 0);
+  aoc::Point startPosition{0, 0};
   for (int y = 0; y < input.size(); ++y) {
     for (int x = 0; x < input[0].size(); ++x) {
-      if (input[y][x] == '#') points.insert(Point(x, y));
-      else if (input[y][x] == '^') startPosition = Point(x, y);
+      if (input[y][x] == '#') points.insert({x, y});
+      else if (input[y][x] == '^') startPosition = {x, y};
     }
   }
   return std::make_pair(points, startPosition);
 }
 
-std::unordered_map<Point, int, PointHash> solve(const std::unordered_set<Point, PointHash> &points, Point pos, int width, int height) {
-  Point move(0, -1);
+std::unordered_map<aoc::Point, int, aoc::PointHash> solve(const std::unordered_set<aoc::Point, aoc::PointHash> &points,
+                                                          aoc::Point pos, const aoc::Point &upperBounds) {
+  constexpr aoc::Point lowerBounds{0, 0};
+  aoc::Point move{0, -1};
   int dir = 1;
 
-  std::unordered_map<Point, int, PointHash> visited = {{pos, dir}};
+  std::unordered_map<aoc::Point, int, aoc::PointHash> visited = {{pos, dir}};
 
   while (true) {
-    pos.add(move);
-    if (!pos.inBounds(width, height)) break;
-    auto it = visited.find(pos);
-    if (it != visited.end() && (it->second & dir)) {
+    pos += move;
+    if (!(pos >= lowerBounds && pos < upperBounds)) break;
+    if (auto it = visited.find(pos); it != visited.end() && (it->second & dir)) {
       return {};
     }
     if (points.contains(pos)) {
-      pos.sub(move);
-      move.rotate();
+      pos -= move;
+      move.rotateClockwise();
       dir <<= 1;
       if (dir > 0b1000) dir = 1;
     } else {
@@ -83,20 +51,19 @@ std::unordered_map<Point, int, PointHash> solve(const std::unordered_set<Point, 
 }
 
 std::pair<int, int> solve12(const aoc::input &input) {
-  int width = (int) input[0].size();
-  int height = (int) input.size();
+  const aoc::Point upperBounds{static_cast<int>(input[0].size()), static_cast<int>(input.size())};
   auto [points, pos] = parseInput(input);
-  auto solution1 = solve(points, pos, width, height);
+  const auto solution1 = solve(points, pos, upperBounds);
 
   auto obstaclePositions = solution1;
   obstaclePositions.erase(pos);
   int solution2 = 0;
-  for (auto &p: obstaclePositions) {
-    points.insert(p.first);
-    if (solve(points, pos, width, height).empty()) ++solution2;
-    points.erase(p.first);
+  for (auto &p: std::views::keys(obstaclePositions)) {
+    points.insert(p);
+    if (solve(points, pos, upperBounds).empty()) ++solution2;
+    points.erase(p);
   }
-  return std::make_pair((int) solution1.size(), solution2);
+  return std::make_pair(static_cast<int>(solution1.size()), solution2);
 }
 
 int main() {

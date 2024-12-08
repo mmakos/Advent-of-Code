@@ -3,7 +3,6 @@ project(advent_of_code)
 
 set(CMAKE_CXX_STANDARD 26)
 
-set(SOURCES src/main/cpp/utils/utils.cpp)
 set(SOURCE_DIR src/main/cpp)
 
 set(YEARS 2023 2024)
@@ -15,7 +14,7 @@ foreach (YEAR IN LISTS YEARS)
         set(EXECUTABLE_SRC ${SOURCE_DIR}/year${YEAR}/day${DAY}.cpp)
 
         if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${EXECUTABLE_SRC})
-            add_executable(${TASK_EXECUTABLE} ${EXECUTABLE_SRC} ${SOURCES})
+            add_executable(${TASK_EXECUTABLE} ${EXECUTABLE_SRC})
 
             target_include_directories(${TASK_EXECUTABLE} PRIVATE src/main/cpp/utils)
 

@@ -10,9 +10,9 @@ const std::string mul = R"(mul\((\d{1,3}),(\d{1,3})\))";
 
 long long solve(const aoc::input &input, bool task2=false) {
   std::string inputStr = aoc::join(input, "\n");
-  std::regex regex( task2 ? mul + R"(|do\(\)|don't\(\))" : mul);
+  const std::regex regex( task2 ? mul + R"(|do\(\)|don't\(\))" : mul);
 
-  auto endIt = std::sregex_iterator();
+  const auto endIt = std::sregex_iterator();
   long long sum = 0;
   bool enabled = true;
   for (auto i = std::sregex_iterator(inputStr.begin(), inputStr.end(), regex); i != endIt; ++i) {

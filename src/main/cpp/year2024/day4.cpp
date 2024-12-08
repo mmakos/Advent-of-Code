@@ -7,35 +7,35 @@ constexpr int day = 4;
 constexpr int year = 2024;
 
 
-bool isXmasRow(const aoc::input &input, int row, int col) {
-  auto sub = input[row].substr(col, 4);
+bool isXmasRow(const aoc::input &input, const int row, const int col) {
+  const auto sub = input[row].substr(col, 4);
   return sub == "XMAS" || sub == "SAMX";
 }
 
-bool isXmasCol(const aoc::input &input, int row, int col) {
+bool isXmasCol(const aoc::input &input, const int row, const int col) {
   return (input[row][col] == 'X' && input[row + 1][col] == 'M' && input[row + 2][col] == 'A' && input[row + 3][col] == 'S') ||
          (input[row][col] == 'S' && input[row + 1][col] == 'A' && input[row + 2][col] == 'M' && input[row + 3][col] == 'X');
 }
 
-bool isXmasRightSlant(const aoc::input &input, int row, int col) {
+bool isXmasRightSlant(const aoc::input &input, const int row, const int col) {
   return (input[row][col] == 'X' && input[row + 1][col + 1] == 'M' && input[row + 2][col + 2] == 'A' && input[row + 3][col + 3] == 'S') ||
          (input[row][col] == 'S' && input[row + 1][col + 1] == 'A' && input[row + 2][col + 2] == 'M' && input[row + 3][col + 3] == 'X');
 }
 
-bool isXmasLeftSlant(const aoc::input &input, int row, int col) {
+bool isXmasLeftSlant(const aoc::input &input, const int row, const int col) {
   return (input[row][col + 3] == 'X' && input[row + 1][col + 2] == 'M' && input[row + 2][col + 1] == 'A' && input[row + 3][col] == 'S') ||
          (input[row][col + 3] == 'S' && input[row + 1][col + 2] == 'A' && input[row + 2][col + 1] == 'M' && input[row + 3][col] == 'X');
 }
 
-bool isXmasX(const aoc::input &input, int row, int col) {
+bool isXmasX(const aoc::input &input, const int row, const int col) {
   return input[row + 1][col + 1] == 'A' &&
          ((input[row][col] == 'M' && input[row + 2][col + 2] == 'S') || (input[row][col] == 'S' && input[row + 2][col + 2] == 'M')) &&
          ((input[row][col + 2] == 'M' && input[row + 2][col] == 'S') || (input[row][col + 2] == 'S' && input[row + 2][col] == 'M'));
 }
 
 int solve1(const aoc::input &input) {
-  int rows = (int) input.size();
-  int cols = (int) input[0].size();
+  const int rows = static_cast<int>(input.size());
+  const int cols = static_cast<int>(input[0].size());
   int sum = 0;
   for (int row = 0; row < input.size(); ++row) {
     for (int col = 0; col < input[0].size(); ++col) {

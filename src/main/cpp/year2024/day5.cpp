@@ -7,7 +7,6 @@ constexpr int day = 5;
 constexpr int year = 2024;
 
 class Rules {
-private:
   std::map<int, std::vector<int>> rulesMap; // number y has to be after numbers vector<x>
 
 public:
@@ -25,10 +24,10 @@ public:
   }
 
   bool isNumberInValidOrder(const std::vector<int> &pages, int pageIdx) {
-    int page = pages[pageIdx];
-    auto rulesIt = rulesMap.find(page);
+    const int page = pages[pageIdx];
+    const auto rulesIt = rulesMap.find(page);
     if (rulesIt == rulesMap.end()) return true;
-    auto rules = rulesIt->second;
+    const auto rules = rulesIt->second;
 
     for (int i = pageIdx + 1; i < pages.size(); ++i) {
       if (aoc::contains(rules, pages[i])) {
@@ -69,7 +68,7 @@ std::pair<Rules, std::vector<std::vector<int>>> parseInput(const aoc::input &inp
   for (; it != input.end(); ++it) {
     auto split = aoc::split(*it, std::regex(","));
     std::vector<int> ints;
-    for (auto &page: split) {
+    for (auto const &page: split) {
       ints.push_back(stoi(page));
     }
     pages.push_back(ints);
