@@ -7,11 +7,11 @@ constexpr int day = 5;
 constexpr int year = 2024;
 
 class Rules {
-  std::map<int, std::vector<int>> rulesMap; // number y has to be after numbers vector<x>
+  std::map<int, std::vector<int> > rulesMap; // number y has to be after numbers vector<x>
 
 public:
   explicit Rules(const aoc::input &input) {
-    std::map<int, std::vector<int>> map;
+    std::map<int, std::vector<int> > map;
     for (const auto &line: input) {
       auto split = aoc::split(line, std::regex("\\|"));
       if (split.size() != 2) break;
@@ -58,10 +58,10 @@ public:
   }
 };
 
-std::pair<Rules, std::vector<std::vector<int>>> parseInput(const aoc::input &input) {
+std::pair<Rules, std::vector<std::vector<int> > > parseInput(const aoc::input &input) {
   Rules rules(input);
 
-  std::vector<std::vector<int>> pages;
+  std::vector<std::vector<int> > pages;
   auto it = input.begin();
   for (; !it->empty(); ++it);
   ++it;
@@ -73,12 +73,13 @@ std::pair<Rules, std::vector<std::vector<int>>> parseInput(const aoc::input &inp
     }
     pages.push_back(ints);
   }
-  return std::make_pair(rules, pages);
+  return {rules, pages};
 }
 
 std::pair<int, int> solve12(const aoc::input &input) {
   auto [rules, pages] = parseInput(input);
-  int sum1 = 0, sum2 = 0;
+  int sum1 = 0;
+  int sum2 = 0;
   for (auto &pgs: pages) {
     int i = 0;
     for (; i < pgs.size(); ++i) {
@@ -93,7 +94,7 @@ std::pair<int, int> solve12(const aoc::input &input) {
       sum2 += corrected[corrected.size() / 2];
     }
   }
-  return std::make_pair(sum1, sum2);
+  return {sum1, sum2};
 }
 
 

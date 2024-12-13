@@ -20,7 +20,7 @@ std::pair<std::unordered_set<aoc::Point, aoc::PointHash>, aoc::Point> parseInput
       else if (input[y][x] == '^') startPosition = {x, y};
     }
   }
-  return std::make_pair(points, startPosition);
+  return {points, startPosition};
 }
 
 std::unordered_map<aoc::Point, int, aoc::PointHash> solve(const std::unordered_set<aoc::Point, aoc::PointHash> &points,
@@ -63,7 +63,7 @@ std::pair<int, int> solve12(const aoc::input &input) {
     if (solve(points, pos, upperBounds).empty()) ++solution2;
     points.erase(p);
   }
-  return std::make_pair(static_cast<int>(solution1.size()), solution2);
+  return {static_cast<int>(solution1.size()), solution2};
 }
 
 int main() {

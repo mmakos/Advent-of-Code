@@ -1,7 +1,6 @@
 #include <iostream>
 #include <point.h>
 #include <queue>
-#include <ranges>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -61,7 +60,7 @@ std::tuple<int, int, int> getPerimeterAndArea(std::unordered_map<aoc::Point, uin
     points.erase(p);
   }
 
-  return std::make_tuple(perimeter, sides, area);
+  return {perimeter, sides, area};
 }
 
 std::pair<int, int> solve(Points &points) {
@@ -69,22 +68,17 @@ std::pair<int, int> solve(Points &points) {
   int sum2 = 0;
   while (!points.empty()) {
     const auto &[point, veg] = *points.begin();
-    // std::cout << veg << ": ";
     const auto [p, s, a] = getPerimeterAndArea(points, point, veg);
-    // std::cout << p2 << std::endl;
     sum1 += p * a;
     sum2 += s * a;
   }
 
-  return std::make_pair(sum1, sum2);
+  return {sum1, sum2};
 }
 
 int main() {
   const aoc::input input = aoc::readInput<std::string>(year, day);
   auto points = parseInput(input);
-
-  // const auto [p1, p2, a] = getPerimeterAndArea(points, {0, 0}, 'E');
-  // std::cout << p1 << " " << p2 << " " << a << std::endl;
   auto [solution1, solution2] = solve(points);
 
   std::cout << "Advent of code " << year << ", day " << day << std::endl;

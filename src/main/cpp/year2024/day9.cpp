@@ -49,7 +49,7 @@ uint64_t solve2(const aoc::input &inputStr) {
         input[lastIdx] = 0;
         const uint64_t startIdx = indexes[i];
         indexes[i] += last;
-        sum += (last * (startIdx * 2 + last - 1) * lastIdx) / 4;
+        sum += last * (startIdx * 2 + last - 1) * lastIdx / 4;
         break;
       }
     }
@@ -58,7 +58,7 @@ uint64_t solve2(const aoc::input &inputStr) {
   for (int i = 0; i < input.size(); i += 2) {
     const auto value = input[i];
     const uint64_t idx = indexes[i];
-    sum += (value * (idx * 2 + value - 1) * i) / 4;
+    sum += value * (idx * 2 + value - 1) * i / 4;
   }
 
   return sum;

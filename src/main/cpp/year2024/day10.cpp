@@ -23,7 +23,7 @@ std::unordered_map<aoc::Point, int, aoc::PointHash> parseInput(const aoc::input 
 }
 
 unsigned int score(const std::unordered_map<aoc::Point, int, aoc::PointHash> &points, const aoc::Point &startPoint, // NOLINT(*-no-recursion)
-                      const int lastValue, std::unordered_set<aoc::Point, aoc::PointHash> &result) {
+                   const int lastValue, std::unordered_set<aoc::Point, aoc::PointHash> &result) {
   const auto &value = points.find(startPoint);
   if (value == points.end() || (value->second - lastValue) != 1) return 0;
   if (value->second == 9) {
@@ -50,7 +50,7 @@ std::pair<unsigned int, unsigned int> solve(const aoc::input &input) {
     }
   }
 
-  return std::make_pair(score1, score2);
+  return {score1, score2};
 }
 
 int main() {

@@ -38,7 +38,7 @@ std::pair<uint64_t, uint64_t> solve(const aoc::input &input) {
     }
   }
 
-  return std::make_pair(task1, task1 + task2);
+  return {task1, task1 + task2};
 }
 
 int main() {

@@ -10,8 +10,8 @@
 constexpr int day = 8;
 constexpr int year = 2024;
 
-std::unordered_map<char, std::vector<aoc::Point>> parseInput(const aoc::input &input) {
-  std::unordered_map<char, std::vector<aoc::Point>> map;
+std::unordered_map<char, std::vector<aoc::Point> > parseInput(const aoc::input &input) {
+  std::unordered_map<char, std::vector<aoc::Point> > map;
   for (int y = 0; y < input.size(); ++y) {
     for (int x = 0; x < input[0].size(); ++x) {
       if (char c = input[y][x]; c != '.') map[c].push_back({x, y});
@@ -21,9 +21,9 @@ std::unordered_map<char, std::vector<aoc::Point>> parseInput(const aoc::input &i
 }
 
 void makeAntidotes(const aoc::Point &antenna1, const aoc::Point &antenna2,
-                    std::unordered_set<aoc::Point, aoc::PointHash> &antidotes1,
-                    std::unordered_set<aoc::Point, aoc::PointHash> &antidotes2,
-                    const aoc::Point &lowerBounds, const aoc::Point &upperBounds) {
+                   std::unordered_set<aoc::Point, aoc::PointHash> &antidotes1,
+                   std::unordered_set<aoc::Point, aoc::PointHash> &antidotes2,
+                   const aoc::Point &lowerBounds, const aoc::Point &upperBounds) {
   const auto diff = antenna2 - antenna1;
   int i = 0;
   for (auto antidote = antenna1; antidote >= lowerBounds && antidote < upperBounds; antidote -= diff, ++i) {
@@ -51,7 +51,7 @@ std::pair<int, int> solve(const aoc::input &input) {
       }
     }
   }
-  return std::make_pair(antidotes1.size(), antidotes2.size());
+  return {antidotes1.size(), antidotes2.size()};
 }
 
 int main() {

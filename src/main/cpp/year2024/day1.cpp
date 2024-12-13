@@ -8,16 +8,16 @@
 constexpr int day = 1;
 constexpr int year = 2024;
 
-std::pair<std::vector<int>, std::vector<int>> parseInput(const aoc::input &input) {
+std::pair<std::vector<int>, std::vector<int> > parseInput(const aoc::input &input) {
   std::vector<int> first;
   std::vector<int> second;
   const std::regex re(R"(\s+)");
-  for (const auto &s : input) {
+  for (const auto &s: input) {
     auto split = aoc::split(s, re);
     first.push_back(std::stoi(split[0]));
     second.push_back(std::stoi(split[1]));
   }
-  return std::make_pair(first, second);
+  return {first, second};
 }
 
 
@@ -26,7 +26,7 @@ int solve1(const aoc::input &input) {
   std::ranges::sort(first);
   std::ranges::sort(second);
   int sum = 0;
-  for (const auto [a, b] : std::views::zip(first, second)) {
+  for (const auto [a, b]: std::views::zip(first, second)) {
     sum += std::abs(a - b);
   }
   return sum;
@@ -36,7 +36,7 @@ long long solve2(const aoc::input &input) {
   auto [first, second] = parseInput(input);
 
   long long sum = 0;
-  for (const auto a : first) {
+  for (const auto a: first) {
     sum += a * std::ranges::count(second, a);
   }
   return sum;

@@ -18,9 +18,9 @@ std::pair<uint64_t, uint64_t> splitIfPossible(const uint64_t stone) {
   if (const int digits = static_cast<int>(std::log10(stone)) + 1; digits % 2 == 0) {
     const auto pow = static_cast<int>(std::pow(10, digits / 2));
     uint64_t first = stone / pow;
-    return std::make_pair(first, stone - first * pow);
+    return {first, stone - first * pow};
   }
-  return std::make_pair(stone, UINT64_MAX);
+  return {stone, UINT64_MAX};
 }
 
 class Solver {
