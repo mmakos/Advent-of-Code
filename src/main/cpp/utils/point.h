@@ -22,6 +22,18 @@ namespace aoc {
       return {first.x + second.x, first.y + second.y};
     }
 
+    friend Point operator*(const Point &first, const Point &second) {
+      return {first.x * second.x, first.y * second.y};
+    }
+
+    friend Point operator*(const Point &first, const int mul) {
+      return {first.x * mul, first.y * mul};
+    }
+
+    friend Point operator%(const Point &first, const Point &second) {
+      return {first.x % second.x, first.y % second.y};
+    }
+
     void operator+=(const Point &other) {
       x += other.x;
       y += other.y;
@@ -30,6 +42,11 @@ namespace aoc {
     void operator-=(const Point &other) {
       x -= other.x;
       y -= other.y;
+    }
+
+    void operator%=(const Point &other) {
+      x %= other.x;
+      y %= other.y;
     }
 
     bool operator>=(const Point &other) const {

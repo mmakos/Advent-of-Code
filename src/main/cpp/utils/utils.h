@@ -95,6 +95,10 @@ namespace aoc {
       return ints;
     });
   }
+
+  inline int parseInt(const std::string &str) {
+    return std::stoi(str);
+  }
 }
 
 #endif //UTILS_H
