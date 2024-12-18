@@ -99,6 +99,12 @@ namespace aoc {
   inline int parseInt(const std::string &str) {
     return std::stoi(str);
   }
+
+  inline int pow(const int a, const int b) {
+    int p = 1;
+    for (int i = 0; i < b; ++i) p *= a;
+    return p;
+  }
 }
 
 #endif //UTILS_H
