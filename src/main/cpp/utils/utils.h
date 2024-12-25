@@ -105,6 +105,13 @@ namespace aoc {
     for (int i = 0; i < b; ++i) p *= a;
     return p;
   }
+
+  struct StringHash {
+    std::size_t operator()(const std::string_view sv) const {
+      constexpr std::hash<std::string_view> hasher;
+      return hasher(sv);
+    }
+  };
 }
 
 #endif //UTILS_H
