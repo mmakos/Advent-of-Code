@@ -21,5 +21,5 @@ _Good luck with solving Advent of Code puzzles._
 
 In `fun` directory I place some solutions which are written in other languages (just for fun), for example [Rockstar language](https://codewithrockstar.com/) - code looks like rockstar ballade.
 
-![Advent of Code 2023 final image](img/aoc2023.png)
+![Advent of Code 2024 final image](img/aoc2024.png)
 
