@@ -10,21 +10,21 @@
 constexpr int day = 16;
 constexpr int year = 2024;
 
-constexpr std::array<aoc::Point, 4> dirs = {{{0, -1}, {1, 0}, {0, 1}, {-1, 0}}};
+constexpr std::array<aoc::Point<>, 4> dirs = {{{0, -1}, {1, 0}, {0, 1}, {-1, 0}}};
 
 class Maze {
   struct Node {
-    aoc::Point point;
+    aoc::Point<> point;
     int direction;
     int cost;
-    std::vector<aoc::Point> path;
+    std::vector<aoc::Point<>> path;
   };
 
-  std::unordered_set<aoc::Point, aoc::PointHash> walls;
-  aoc::Point end = {0, 0};
+  std::unordered_set<aoc::Point<>, aoc::PointHash<>> walls;
+  aoc::Point<> end = {0, 0};
 
 public:
-  aoc::Point start = {0, 0};
+  aoc::Point<> start = {0, 0};
 
   explicit Maze(const aoc::input &input) {
     for (int y = 0; y < input.size(); ++y) {
@@ -41,8 +41,8 @@ public:
   }
 
   std::pair<int, int> dijkstra() const {
-    std::unordered_map<std::pair<aoc::Point, int>, int, PointHash> visited;
-    std::unordered_set<aoc::Point, aoc::PointHash> bestPaths;
+    std::unordered_map<std::pair<aoc::Point<>, int>, int, PointHash> visited;
+    std::unordered_set<aoc::Point<>, aoc::PointHash<>> bestPaths;
     std::priority_queue<Node, std::vector<Node>, CompareNode> queue;
     int minCost = INT32_MAX;
     queue.push({start, 1, 0, {start}});
@@ -84,7 +84,7 @@ private:
   };
 
   struct PointHash {
-    std::size_t operator()(const std::pair<aoc::Point, int> &point) const {
+    std::size_t operator()(const std::pair<aoc::Point<>, int> &point) const {
       return hash_value(point.first) & static_cast<uint64_t>(point.second) << 62;
     }
   };

@@ -8,11 +8,11 @@
 
 constexpr int day = 18;
 constexpr int year = 2024;
-constexpr aoc::Point start{0, 0};
-constexpr aoc::Point end{70, 70};
-constexpr std::array<aoc::Point, 4> dirs = {{{0, -1}, {1, 0}, {0, 1}, {-1, 0}}};
+constexpr aoc::Point<> start{0, 0};
+constexpr aoc::Point<> end{70, 70};
+constexpr std::array<aoc::Point<>, 4> dirs = {{{0, -1}, {1, 0}, {0, 1}, {-1, 0}}};
 
-void out(const std::unordered_set<aoc::Point, aoc::PointHash> &set) {
+void out(const std::unordered_set<aoc::Point<>, aoc::PointHash<>> &set) {
   for (int y = 0; y <= 6; ++y) {
     for (int x = 0; x <= 6; ++x) {
       std::cout << (set.contains({x, y}) ? 'O' : '.');
@@ -21,18 +21,18 @@ void out(const std::unordered_set<aoc::Point, aoc::PointHash> &set) {
   }
 }
 
-std::unordered_set<aoc::Point, aoc::PointHash> parseInput(const std::vector<std::vector<int>> &input) {
-  std::unordered_set<aoc::Point, aoc::PointHash> bytes;
+std::unordered_set<aoc::Point<>, aoc::PointHash<>> parseInput(const std::vector<std::vector<int>> &input) {
+  std::unordered_set<aoc::Point<>, aoc::PointHash<>> bytes;
   for (const auto &p: input) {
     bytes.insert({p[0], p[1]});
   }
   return bytes;
 }
 
-int bfs(const std::vector<aoc::Point> &allBytes, const int limit) {
-  const std::unordered_set<aoc::Point, aoc::PointHash> bytes(allBytes.begin(), allBytes.begin() + limit);
-  std::unordered_set<aoc::Point, aoc::PointHash> visited;
-  std::queue<std::pair<aoc::Point, int>> queue;
+int bfs(const std::vector<aoc::Point<>> &allBytes, const int limit) {
+  const std::unordered_set<aoc::Point<>, aoc::PointHash<>> bytes(allBytes.begin(), allBytes.begin() + limit);
+  std::unordered_set<aoc::Point<>, aoc::PointHash<>> visited;
+  std::queue<std::pair<aoc::Point<>, int>> queue;
   queue.push({{0, 0}, 0});
 
   while (!queue.empty()) {
@@ -50,11 +50,11 @@ int bfs(const std::vector<aoc::Point> &allBytes, const int limit) {
   return -1;
 }
 
-int solve1(const std::vector<aoc::Point> &bytes) {
+int solve1(const std::vector<aoc::Point<>> &bytes) {
   return bfs(bytes, 1024);
 }
 
-aoc::Point solve2(const std::vector<aoc::Point> &bytes) {
+aoc::Point<> solve2(const std::vector<aoc::Point<>> &bytes) {
   auto limit = static_cast<int>(bytes.size() / 2);
   double multiplier = limit / 2.;
   while (true) {
@@ -68,9 +68,9 @@ aoc::Point solve2(const std::vector<aoc::Point> &bytes) {
 }
 
 int main() {
-  const std::vector<aoc::Point> input = aoc::readInput<aoc::Point>(year, day, [](const auto &s) {
+  const std::vector<aoc::Point<>> input = aoc::readInput<aoc::Point<>>(year, day, [](const auto &s) {
     const auto split = aoc::split(s, std::regex(","));
-    return aoc::Point{std::stoi(split[0]), std::stoi(split[1])};
+    return aoc::Point<>{std::stoi(split[0]), std::stoi(split[1])};
   });
 
   std::cout << "Advent of code " << year << ", day " << day << std::endl;

@@ -24,7 +24,7 @@ uint64_t joltage(const std::string &batteries, const int count) {
   return jol;
 }
 
-uint64_t solve(const std::vector<std::string> &input, const int count) {
+uint64_t solve(const aoc::input &input, const int count) {
   uint64_t j = 0;
   for (const auto &batteries : input) {
     j += joltage(batteries, count);
@@ -32,16 +32,16 @@ uint64_t solve(const std::vector<std::string> &input, const int count) {
   return j;
 }
 
-uint64_t solve1(const std::vector<std::string> &input) {
+uint64_t solve1(const aoc::input &input) {
   return solve(input, 2);
 }
 
-uint64_t solve2(const std::vector<std::string> &input) {
+uint64_t solve2(const aoc::input &input) {
   return solve(input, 12);
 }
 
 int main() {
-  const std::vector<std::string> input = aoc::readInput<std::string>(year, day);
+  const aoc::input input = aoc::readInput<std::string>(year, day);
 
   std::cout << "Advent of code " << year << ", day " << day << std::endl;
   std::cout << "TASK 1: " << solve1(input) << std::endl;

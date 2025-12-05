@@ -10,10 +10,10 @@
 constexpr int day = 6;
 constexpr int year = 2024;
 
-std::pair<std::unordered_set<aoc::Point, aoc::PointHash>, aoc::Point> parseInput(const aoc::input &input) {
-  std::unordered_set<aoc::Point, aoc::PointHash> points;
+std::pair<std::unordered_set<aoc::Point<>, aoc::PointHash<>>, aoc::Point<>> parseInput(const aoc::input &input) {
+  std::unordered_set<aoc::Point<>, aoc::PointHash<>> points;
 
-  aoc::Point startPosition{0, 0};
+  aoc::Point<> startPosition{0, 0};
   for (int y = 0; y < input.size(); ++y) {
     for (int x = 0; x < input[0].size(); ++x) {
       if (input[y][x] == '#') points.insert({x, y});
@@ -23,13 +23,13 @@ std::pair<std::unordered_set<aoc::Point, aoc::PointHash>, aoc::Point> parseInput
   return {points, startPosition};
 }
 
-std::unordered_map<aoc::Point, int, aoc::PointHash> solve(const std::unordered_set<aoc::Point, aoc::PointHash> &points,
-                                                          aoc::Point pos, const aoc::Point &upperBounds) {
-  constexpr aoc::Point lowerBounds{0, 0};
-  aoc::Point move{0, -1};
+std::unordered_map<aoc::Point<>, int, aoc::PointHash<>> solve(const std::unordered_set<aoc::Point<>, aoc::PointHash<>> &points,
+                                                          aoc::Point<> pos, const aoc::Point<> &upperBounds) {
+  constexpr aoc::Point<> lowerBounds{0, 0};
+  aoc::Point<> move{0, -1};
   int dir = 1;
 
-  std::unordered_map<aoc::Point, int, aoc::PointHash> visited = {{pos, dir}};
+  std::unordered_map<aoc::Point<>, int, aoc::PointHash<>> visited = {{pos, dir}};
 
   while (true) {
     pos += move;
@@ -51,7 +51,7 @@ std::unordered_map<aoc::Point, int, aoc::PointHash> solve(const std::unordered_s
 }
 
 std::pair<int, int> solve12(const aoc::input &input) {
-  const aoc::Point upperBounds{static_cast<int>(input[0].size()), static_cast<int>(input.size())};
+  const aoc::Point<> upperBounds{static_cast<int>(input[0].size()), static_cast<int>(input.size())};
   auto [points, pos] = parseInput(input);
   const auto solution1 = solve(points, pos, upperBounds);
 

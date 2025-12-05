@@ -11,12 +11,12 @@ namespace aoc {
 
 constexpr int day = 20;
 constexpr int year = 2024;
-constexpr std::array<aoc::Point, 4> dirs = {{{0, -1}, {1, 0}, {0, 1}, {-1, 0}}};
+constexpr std::array<aoc::Point<>, 4> dirs = {{{0, -1}, {1, 0}, {0, 1}, {-1, 0}}};
 
-std::vector<aoc::Point> parsePath(const aoc::input &input) {
-  std::unordered_set<aoc::Point, aoc::PointHash> points;
-  aoc::Point start = {0, 0};
-  aoc::Point end = {0, 0};
+std::vector<aoc::Point<>> parsePath(const aoc::input &input) {
+  std::unordered_set<aoc::Point<>, aoc::PointHash<>> points;
+  aoc::Point<> start = {0, 0};
+  aoc::Point<> end = {0, 0};
   for (int y = 0; y < input.size(); ++y) {
     for (int x = 0; x < input[0].size(); ++x) {
       const char c = input[y][x];
@@ -29,7 +29,7 @@ std::vector<aoc::Point> parsePath(const aoc::input &input) {
   }
 
   std::vector out = {start};
-  aoc::Point position = start;
+  aoc::Point<> position = start;
   while (position != end) {
     for (int i = 0; i < 4; ++i) {
       const auto next = position + dirs[i];

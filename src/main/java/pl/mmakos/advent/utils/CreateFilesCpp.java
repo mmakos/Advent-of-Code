@@ -12,7 +12,7 @@ import java.util.stream.IntStream;
 
 @NoArgsConstructor(access = AccessLevel.NONE)
 public final class CreateFilesCpp {
-  private static final int YEAR = 2024;
+  private static final int YEAR = 2025;
 
   public static void main(String[] args) throws IOException {
     String template = Files.readString(Path.of("src/main/cpp/utils/template.cpp"))

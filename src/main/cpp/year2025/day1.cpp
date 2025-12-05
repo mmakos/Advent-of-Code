@@ -6,7 +6,7 @@
 constexpr int day = 1;
 constexpr int year = 2025;
 
-int solve1(const std::vector<std::string> &input) {
+int solve1(const aoc::input &input) {
   int dial = 50;
   int password = 0;
   for (const auto &line : input) {
@@ -17,7 +17,7 @@ int solve1(const std::vector<std::string> &input) {
   return password;
 }
 
-int solve2(const std::vector<std::string> &input) {
+int solve2(const aoc::input &input) {
   int dial = 50;
   int password = 0;
   for (const auto &line : input) {
@@ -34,7 +34,7 @@ int solve2(const std::vector<std::string> &input) {
 }
 
 int main() {
-  const std::vector<std::string> input = aoc::readInput<std::string>(year, day);
+  const aoc::input input = aoc::readInput<std::string>(year, day);
 
   std::cout << "Advent of code " << year << ", day " << day << std::endl;
   std::cout << "TASK 1: " << solve1(input) << std::endl;

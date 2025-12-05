@@ -8,13 +8,13 @@
 constexpr int day = 15;
 constexpr int year = 2024;
 
-constexpr aoc::Point dirs[] = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}};
-constexpr aoc::Point movX = {1, 0};
+constexpr aoc::Point<> dirs[] = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}};
+constexpr aoc::Point<> movX = {1, 0};
 
 class Warehouse {
-  std::unordered_set<aoc::Point, aoc::PointHash> walls;
-  std::unordered_set<aoc::Point, aoc::PointHash> boxes;
-  aoc::Point robot = {0, 0};
+  std::unordered_set<aoc::Point<>, aoc::PointHash<>> walls;
+  std::unordered_set<aoc::Point<>, aoc::PointHash<>> boxes;
+  aoc::Point<> robot = {0, 0};
   std::vector<int> movements;
   const bool wide;
 
@@ -63,7 +63,7 @@ private:
     }
   }
 
-  bool moveBox(const aoc::Point &box, const aoc::Point &dir) {
+  bool moveBox(const aoc::Point<> &box, const aoc::Point<> &dir) {
     const auto newPos = box + dir;
     if (!walls.contains(newPos) && (!boxes.contains(newPos) || moveBox(newPos, dir))) {
       boxes.erase(box);
@@ -94,13 +94,13 @@ private:
     }
   }
 
-  void moveWideBox(const aoc::Point &box, const int dir) {
+  void moveWideBox(const aoc::Point<> &box, const int dir) {
     if (dir % 2 == 0) moveBoxesVertical({box}, dirs[dir]);
     if (dir == 1) moveBoxRight(box);
     moveBoxLeft(box);
   }
 
-  bool moveBoxRight(const aoc::Point &box) {
+  bool moveBoxRight(const aoc::Point<> &box) {
     const auto newPos = box + movX;
     const auto newPosR = newPos + movX;
     if (!walls.contains(newPosR) && (!boxes.contains(newPosR) || moveBoxRight(newPosR))) {
@@ -111,7 +111,7 @@ private:
     return false;
   }
 
-  bool moveBoxLeft(const aoc::Point &box) {
+  bool moveBoxLeft(const aoc::Point<> &box) {
     const auto newPos = box - movX;
     const auto newPosL = newPos - movX;
     if (!walls.contains(newPos) && (!boxes.contains(newPosL) || moveBoxLeft(newPosL))) {
@@ -122,8 +122,8 @@ private:
     return false;
   }
 
-  bool moveBoxesVertical(const std::unordered_set<aoc::Point, aoc::PointHash> &boxes, const aoc::Point &dir) {
-    std::unordered_set<aoc::Point, aoc::PointHash> nextBoxes;
+  bool moveBoxesVertical(const std::unordered_set<aoc::Point<>, aoc::PointHash<>> &boxes, const aoc::Point<> &dir) {
+    std::unordered_set<aoc::Point<>, aoc::PointHash<>> nextBoxes;
     for (const auto &box: boxes) {
       const auto newPos = box + dir;
       const auto newPosR = newPos + movX;

@@ -8,9 +8,9 @@
 constexpr int day = 4;
 constexpr int year = 2025;
 
-std::unordered_set<aoc::Point, aoc::PointHash>
+std::unordered_set<aoc::Point<>, aoc::PointHash<>>
 parseInput(const aoc::input &input) {
-  std::unordered_set<aoc::Point, aoc::PointHash> points;
+  std::unordered_set<aoc::Point<>, aoc::PointHash<>> points;
   for (int y = 0; y < input.size(); ++y) {
     for (int x = 0; x < input[0].size(); ++x) {
       const char c = input[y][x];
@@ -22,8 +22,8 @@ parseInput(const aoc::input &input) {
 }
 
 bool isAccessible(
-    const aoc::Point &point,
-    const std::unordered_set<aoc::Point, aoc::PointHash> &points) {
+    const aoc::Point<> &point,
+    const std::unordered_set<aoc::Point<>, aoc::PointHash<>> &points) {
   int adjacent = 0;
   for (int x = point.x - 1; x <= point.x + 1; ++x) {
     for (int y = point.y - 1; y <= point.y + 1; ++y) {
@@ -37,8 +37,8 @@ bool isAccessible(
   return true;
 }
 
-std::unordered_set<aoc::Point, aoc::PointHash> removeRolls(const std::unordered_set<aoc::Point, aoc::PointHash> &points) {
-  std::unordered_set<aoc::Point, aoc::PointHash> newPoints;
+std::unordered_set<aoc::Point<>, aoc::PointHash<>> removeRolls(const std::unordered_set<aoc::Point<>, aoc::PointHash<>> &points) {
+  std::unordered_set<aoc::Point<>, aoc::PointHash<>> newPoints;
   for (const auto &point : points) {
     if (!isAccessible(point, points)) {
       newPoints.insert(point);
@@ -47,7 +47,7 @@ std::unordered_set<aoc::Point, aoc::PointHash> removeRolls(const std::unordered_
   return newPoints;
 }
 
-int solve1(const std::vector<std::string> &input) {
+int solve1(const aoc::input &input) {
   const auto points = parseInput(input);
   int accessible = 0;
   for (const auto &point : points) {
@@ -58,7 +58,7 @@ int solve1(const std::vector<std::string> &input) {
   return accessible;
 }
 
-uint64_t solve2(const std::vector<std::string> &input) {
+uint64_t solve2(const aoc::input &input) {
   const auto startPoints = parseInput(input);
   auto points = startPoints;
   uint64_t removed = 0;
@@ -71,7 +71,7 @@ uint64_t solve2(const std::vector<std::string> &input) {
 }
 
 int main() {
-  const std::vector<std::string> input = aoc::readInput<std::string>(year, day);
+  const aoc::input input = aoc::readInput<std::string>(year, day);
 
   std::cout << "Advent of code " << year << ", day " << day << std::endl;
   std::cout << "TASK 1: " << solve1(input) << std::endl;

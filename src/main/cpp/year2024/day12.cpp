@@ -10,12 +10,12 @@
 constexpr int day = 12;
 constexpr int year = 2024;
 
-using Points = std::unordered_map<aoc::Point, uint8_t, aoc::PointHash>;
+using Points = std::unordered_map<aoc::Point<>, uint8_t, aoc::PointHash<>>;
 // All 8 directions from top - clockwise
-const std::vector<aoc::Point> dirs = {{0, -1}, {1, -1}, {1, 0}, {1, 1}, {0, 1}, {-1, 1}, {-1, 0}, {-1, -1}};
+const std::vector<aoc::Point<>> dirs = {{0, -1}, {1, -1}, {1, 0}, {1, 1}, {0, 1}, {-1, 1}, {-1, 0}, {-1, -1}};
 
-std::unordered_map<aoc::Point, uint8_t, aoc::PointHash> parseInput(const aoc::input &input) {
-  std::unordered_map<aoc::Point, uint8_t, aoc::PointHash> points;
+std::unordered_map<aoc::Point<>, uint8_t, aoc::PointHash<>> parseInput(const aoc::input &input) {
+  std::unordered_map<aoc::Point<>, uint8_t, aoc::PointHash<>> points;
 
   for (int y = 0; y < input.size(); ++y) {
     for (int x = 0; x < input[0].size(); ++x) {
@@ -25,13 +25,13 @@ std::unordered_map<aoc::Point, uint8_t, aoc::PointHash> parseInput(const aoc::in
   return points;
 }
 
-std::tuple<int, int, int> getPerimeterAndArea(std::unordered_map<aoc::Point, uint8_t, aoc::PointHash> &points, const aoc::Point &startPoint, const uint8_t veg) {
+std::tuple<int, int, int> getPerimeterAndArea(std::unordered_map<aoc::Point<>, uint8_t, aoc::PointHash<>> &points, const aoc::Point<> &startPoint, const uint8_t veg) {
   int perimeter = 0;
   int sides = 0;
   int area = 0;
 
-  std::unordered_set<aoc::Point, aoc::PointHash> visited;
-  std::queue<aoc::Point> queue;
+  std::unordered_set<aoc::Point<>, aoc::PointHash<>> visited;
+  std::queue<aoc::Point<>> queue;
   queue.push(startPoint);
   visited.insert(startPoint);
 
