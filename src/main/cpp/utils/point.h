@@ -1,6 +1,5 @@
 #ifndef POINT_H
 #define POINT_H
-#include <bits/fs_path.h>
 
 namespace aoc {
 template <typename T = int> struct Point {
